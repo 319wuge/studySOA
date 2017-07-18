@@ -207,14 +207,14 @@
         </exclusions>
       </dependency>
       <dependency>
-        <groupId>com.manyi.iw</groupId>
-        <artifactId>IWAgentSOAClient</artifactId>
-        <version>1.3.4-SNAPSHOT</version>
+        <groupId>studySOA</groupId>
+        <artifactId>StudySOAApi</artifactId>
+        <version>1.0-SNAPSHOT</version>
       </dependency>
       <dependency>
-        <groupId>com.manyi.iw</groupId>
-        <artifactId>IWAgentSOAApi</artifactId>
-        <version>1.3.4-SNAPSHOT</version>
+        <groupId>studySOA</groupId>
+        <artifactId>StudySOAClient</artifactId>
+        <version>1.0-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>com.manyi.iw</groupId>
@@ -593,12 +593,12 @@
     <repository>
       <id>releases</id>
       <name>Internal Releases</name>
-      <url>http://192.168.1.3:9081/nexus/content/repositories/releases</url>
+      <url>http://localhost:8081/nexus/content/repositories/releases</url>
     </repository>
     <snapshotRepository>
       <id>snapshots</id>
       <name>Internal Snapshots</name>
-      <url>http://192.168.1.3:9081/nexus/content/repositories/snapshots</url>
+      <url>http://localhost:8081/nexus/content/repositories/snapshots</url>
     </snapshotRepository>
   </distributionManagement>
 

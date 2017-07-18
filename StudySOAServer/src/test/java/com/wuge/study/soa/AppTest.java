@@ -1,4 +1,4 @@
-package studySOA;
+package com.wuge.study.soa;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
