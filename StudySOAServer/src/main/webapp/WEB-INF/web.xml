@@ -2,7 +2,8 @@
 <web-app version="3.0"
          xmlns="http://java.sun.com/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/javaee/web-app_3_1.xsd">
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+         http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/javaee/web-app_3_1.xsd">
     <display-name>Study SOA</display-name>
 
     <context-param>
@@ -51,7 +52,7 @@
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>classpath:com/manyi/iw/contract/soa/server/spring/config-web.xml,classpath:com/manyi/iw/contract/soa/server/schedule/config.xml,classpath:com/manyi/iw/contract/soa/server/schedule/config-schedule.xml</param-value>
+            <param-value>classpath:com/wuge/study/soa/server/spring/config-web.xml,classpath:com/wuge/study/soa/server/schedule/config.xml,classpath:com/wuge/study/soa/server/schedule/config-schedule.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
         <async-supported>true</async-supported>

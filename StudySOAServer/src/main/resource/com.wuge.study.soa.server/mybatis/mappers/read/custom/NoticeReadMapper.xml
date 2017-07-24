@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manyi.iw.contract.soa.server.mybatis.dao.read.custom.NoticeReadDao">
+
+    <select id="noticeOrder" parameterType="long" resultType="com.manyi.iw.contract.soa.api.model.vo.sale.notice.NoticeOrderDetailResult$NoticeOrder">
+      SELECT
+       id as orderId,
+       code as orderCode,
+       houseId,
+       premisesPermitAddr,
+       loanMendian as loanMendianId,
+       tradeMendian as tradeMendianId,
+       signMendian as signMendianId,
+       agentId,
+       flowAgentId as followAgentId,
+       mendianId,bigAreaId,userId
+       from iw_sale_contract_order
+       where id = #{orderId}
+    </select>
+
+    <select id="tradeMendianEmployee" parameterType="long" resultType="com.manyi.iw.contract.soa.api.model.vo.sale.notice.NoticeOrderDetailResult$TradeMendianEmployee">
+        SELECT
+        agentId,
+        type
+        from iw_sale_contract_order_allocation_persion
+        where orderId = #{orderId} and valid=1
+    </select>
+
+    <select id="weiShouLiOrder" resultType="java.lang.Long">
+        select
+        DISTINCT m.orderId
+        from iw_sale_contract_order_schedule_order_mark m
+        left join iw_sale_contract_order_mortgage_loan l2 on m.orderId = l2.orderId
+        left join iw_sale_contract_order o on o.id = m.orderId
+        where
+        m.sendWeiXinWeiQueRenShouLi = 0
+        and l2.id is null
+        and o.xiadingTime <![CDATA[<=]]> #{jujianTime}
+    </select>
+
+    <select id="weiMianQian" resultType="java.lang.Long">
+        select
+        DISTINCT m.orderId
+        from iw_sale_contract_order_schedule_order_mark m
+        left join iw_sale_contract_order_mortgage_loan l2 on m.orderId = l2.orderId
+        where
+        m.sendWeiXinWeiQueRenMianQian = 0
+        and l2.state=10
+        and l2.timeAcceptance <![CDATA[<=]]> #{shouLiTime}
+    </select>
+
+    <select id="weiJianQi" resultType="java.lang.Long">
+        select
+        DISTINCT m.orderId
+        from iw_sale_contract_order_schedule_order_mark m
+        left join iw_sale_contract_order_mortgage_loan l2 on m.orderId = l2.orderId
+        where
+        m.sendWeiXinWeiQueRenJianQi = 0
+        and l2.state=20
+        and l2.timeVisaInterview <![CDATA[<=]]> #{mianQianTime}
+    </select>
+
+    <select id="weiPiDai" resultType="java.lang.Long">
+        select
+        DISTINCT m.orderId
+        from iw_sale_contract_order_schedule_order_mark m
+        left join iw_sale_contract_order_mortgage_loan l2 on m.orderId = l2.orderId
+        where
+        m.sendWeiXinWeiQueRenPiDai = 0
+        and l2.state=30
+        and l2.timeCertificateComplete <![CDATA[<=]]> #{jianQiTime}
+    </select>
+
+    <select id="weiChaXianGou" resultType="java.lang.Long">
+        select
+        DISTINCT m.orderId
+        from iw_sale_contract_order_schedule_order_mark m
+        left join iw_sale_contract_order_trade_transfer l2 on m.orderId = l2.orderId
+        where
+        m.sendWeiXinWeiQueRenChaXianGou = 0
+        and l2.state=20
+        and l2.timePayTaxes <![CDATA[<=]]> #{shenJiaoShuiGuoHuShenQingTime}
+    </select>
+
+
+    <select id="weiGuoHu" resultType="java.lang.Long">
+        select
+        DISTINCT m.orderId
+        from iw_sale_contract_order_schedule_order_mark m
+        left join iw_sale_contract_order_trade_transfer l2 on m.orderId = l2.orderId
+        where
+        m.sendWeiXinWeiQueRenGuoHu = 0
+        and l2.state=30
+        and l2.timeLimitations <![CDATA[<=]]> #{chaXianGouTime}
+    </select>
+
+    <select id="weiFangKuan" resultType="java.lang.Long">
+        select
+        DISTINCT m.orderId
+        from iw_sale_contract_order_schedule_order_mark m
+        left join iw_sale_contract_order_mortgage_loan l2 on m.orderId = l2.orderId
+        where
+        m.sendWeiXinWeiQueRenFangKuan = 0
+        and l2.state=50
+        and l2.timeMortgage <![CDATA[<=]]> #{guoHuTime}
+    </select>
+
+    <select id="weiDiYa" resultType="java.lang.Long">
+        select
+        DISTINCT m.orderId
+        from iw_sale_contract_order_schedule_order_mark m
+        left join iw_sale_contract_order_trade_transfer l2 on m.orderId = l2.orderId
+        where
+        m.sendWeiXinWeiQueRenDiYa = 0
+        and l2.state=50
+        and l2.timeLeadProductionPermit <![CDATA[<=]]> #{diYaTime}
+    </select>
+
+    <select id="weiShenJiaoShuiGuoHuShenQing" resultType="java.lang.Long">
+        select
+        DISTINCT m.orderId
+        from iw_sale_contract_order_schedule_order_mark m
+        left join iw_sale_contract_order_trade_transfer l2 on m.orderId = l2.orderId
+        left join iw_sale_contract_order o on m.orderId = o.id
+        where
+        m.sendWeiXinWeiQueRenShenJiaoShuiGuoHu = 0
+        and l2.id is null
+        and o.formalContractTime <![CDATA[<=]]> #{shenJiaoShuiGuoHuShenQingTime}
+    </select>
+</mapper>

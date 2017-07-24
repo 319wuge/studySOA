@@ -12,7 +12,7 @@ def dep(dependencyName) {
 buildscript {
 	repositories {
 		mavenLocal()
-		maven {url "http://localhost:8081/nexus/content/groups/public"}
+		maven {url "http://60.205.229.100:8081/nexus/content/groups/public"}
 		mavenCentral()
 	}
 }
@@ -24,7 +24,7 @@ version = '1.0-snapshot'
 archivesBaseName = (project.rootProject.name + project.path).split(":").join("-")
 repositories {
 	mavenLocal()
-	maven {url "http://localhost:8081/nexus/content/groups/public"}
+	maven {url "http://60.205.229.100:8081/nexus/content/groups/public"}
 
 	mavenCentral()
 }

@@ -1,0 +1,939 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manyi.iw.contract.soa.server.mybatis.dao.read.custom.SaleContractOrderReadDao">
+    <resultMap extends="com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderReadDao.BaseResultMap"
+               id="SaleContractOrderVoResultMap"
+               type="com.manyi.iw.contract.soa.api.model.vo.sale.GetOrderDetailResult$OrderDetail$SaleContractOrderVo"/>
+    <resultMap
+            extends="com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderReceiptReadDao.BaseResultMap"
+            id="SaleContractOrderReceiptVoResultMap"
+            type="com.manyi.iw.contract.soa.api.model.vo.sale.GetOrderDetailResult$OrderDetail$SaleContractOrderReceiptVo"/>
+    <resultMap
+            extends="com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderDocReadDao.BaseResultMap"
+            id="SaleContractOrderDocVoResultMap"
+            type="com.manyi.iw.contract.soa.api.model.vo.sale.GetOrderDetailResult$OrderDetail$SaleContractOrderDocVo"/>
+    <resultMap
+            extends="com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractCustomerDocReadDao.BaseResultMap"
+            id="SaleContractCustomerDocVoResultMap"
+            type="com.manyi.iw.contract.soa.api.model.vo.sale.GetOrderDetailResult$OrderDetail$SaleContractCustomerDocVo"/>
+    <resultMap
+            extends="com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderFollowReadDao.ResultMapWithBLOBs"
+            id="SaleContractOrderFollowVoResultMap"
+            type="com.manyi.iw.contract.soa.api.model.vo.sale.GetOrderDetailResult$OrderDetail$SaleContractOrderFollowVo"/>
+    <resultMap
+            extends="com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractLoanAndTradeReadDao.ResultMapWithBLOBs"
+            id="SaleContractLoanTradeVoResultMap"
+            type="com.manyi.iw.contract.soa.api.model.vo.sale.GetOrderDetailResult$OrderDetail$SaleContractLoanAndTradeVo"/>
+    <resultMap
+            extends="com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderAttributeReadDao.ResultMapWithBLOBs"
+            id="SaleContractAttributeVoResultMap"
+            type="com.manyi.iw.contract.soa.api.model.vo.sale.GetOrderDetailResult$OrderDetail$SaleContractOrderAttributeVo"/>
+    <resultMap
+            extends="com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderNetsigndocLogReadDao.ResultMapWithBLOBs"
+            id="SaleContractOrderNetsigndocLogVoResultMap"
+            type="com.manyi.iw.contract.soa.api.model.vo.sale.GetOrderDetailResult$OrderDetail$SaleContractOrderNetsigndocLogVo"/>
+
+    <resultMap
+            extends="com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderDocItemReadDao.BaseResultMap"
+            id="SaleContractOrderDocItemVoResultMap"
+            type="com.manyi.iw.contract.soa.api.model.vo.sale.GetOrderDetailResult$OrderDetail$SaleContractOrderDocItemVo"/>
+    <resultMap extends="com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderReadDao.BaseResultMap"
+               id="OrderVoResultMap"
+               type="com.manyi.iw.contract.soa.api.model.vo.sale.SearchOrderResult$OrderVo"/>
+
+    <resultMap extends="com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractTradeTransactionReadDao.BaseResultMap"
+               id="SaleContractTradeVoResultMap"
+               type="com.manyi.iw.contract.soa.api.model.vo.sale.trade.SearchTradeResult$TradeDetail$SaleContractTradeVo"/>
+
+    <resultMap extends="com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderOutAccountReadDao.BaseResultMap"
+               id="SaleContractOrderOutAccountVoResultMap"
+               type="com.manyi.iw.contract.soa.api.model.vo.sale.GetOrderDetailResult$OrderDetail$SaleContractOrderOutAccountVo"/>
+
+    <resultMap extends="com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderOutAccountItemReadDao.BaseResultMap"
+               id="SaleContractOrderOutAccountItemVoResultMap"
+               type="com.manyi.iw.contract.soa.api.model.vo.sale.GetOrderDetailResult$OrderDetail$SaleContractOrderOutAccountItemVo"/>
+    <resultMap extends="com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderOutAccountLogReadDao.BaseResultMap"
+               id="SaleContractOrderOutAccountLogVoResultMap"
+               type="com.manyi.iw.contract.soa.api.model.vo.sale.GetOrderDetailResult$OrderDetail$SaleContractOrderOutAccountLogVo"/>
+    <resultMap extends="com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderReadDao.BaseResultMap"
+               id="BatchSearchOrderResultMap"
+               type="com.manyi.iw.contract.soa.api.model.vo.sale.BatchSearchOrderResult$BatchSearchOrderVo" />
+    <resultMap extends="com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderOutaccountDetailReadDao.BaseResultMap"
+               id="SaleContractOrderOutaccountDetailVoResultMap"
+               type="com.manyi.iw.contract.soa.api.model.vo.sale.GetOrderDetailResult$OrderDetail$SaleContractOrderOutaccountDetailVo"/>
+
+
+    <resultMap id="TradeDetailResultMap"
+               type="com.manyi.iw.contract.soa.api.model.vo.sale.trade.SearchTradeResult$TradeDetail">
+        <id column="trade_id"/>
+        <association columnPrefix="trade_"
+                     property="tradeVo"
+                     resultMap="SaleContractTradeVoResultMap"/>
+        <collection columnPrefix="receipt_"
+                    property="receiptVos"
+                    resultMap="SaleContractOrderReceiptVoResultMap"/>
+    </resultMap>
+
+    <resultMap id="DocDetailResultMap"
+               type="com.manyi.iw.contract.soa.api.model.vo.sale.GetOrderDetailResult$OrderDetail$SaleContractDocDetail">
+        <id column="doc_id"/>
+        <association columnPrefix="doc_"
+                     property="docVo"
+                     resultMap="SaleContractOrderDocVoResultMap"/>
+        <collection columnPrefix="item_"
+                    property="itemVos"
+                    resultMap="SaleContractOrderDocItemVoResultMap"/>
+    </resultMap>
+
+    <resultMap id="OutAccountDetailResultMap"
+               type="com.manyi.iw.contract.soa.api.model.vo.sale.GetOrderDetailResult$OrderDetail$SaleContractOutAccountDetail">
+        <id column="out_account_detail_id"/>
+        <association columnPrefix="out_account_detail_"
+                     property="outaccountDetailVo"
+                     resultMap="SaleContractOrderOutaccountDetailVoResultMap"/>
+        <association columnPrefix="out_account_"
+                     property="outAccountVo"
+                     resultMap="SaleContractOrderOutAccountVoResultMap"/>
+        <collection columnPrefix="out_account_item_"
+                    property="outAccountItemVos"
+                    resultMap="SaleContractOrderOutAccountItemVoResultMap"/>
+        <collection columnPrefix="out_account_log_"
+                    property="outAccountLogVos"
+                    resultMap="SaleContractOrderOutAccountLogVoResultMap"/>
+    </resultMap>
+
+    <resultMap id="OrderDetailResultMap"
+               type="com.manyi.iw.contract.soa.api.model.vo.sale.GetOrderDetailResult$OrderDetail">
+        <id column="order_id"/>
+        <association columnPrefix="order_"
+                     property="order"
+                     resultMap="SaleContractOrderVoResultMap"/>
+        <association columnPrefix="loan_trade_"
+                     property="loanAndTradeVo"
+                     resultMap="SaleContractLoanTradeVoResultMap"/>
+        <association columnPrefix="order_att_"
+                     property="attributeVo"
+                     resultMap="SaleContractAttributeVoResultMap"/>
+        <collection columnPrefix="receipt_"
+                    property="orderReceipts"
+                    resultMap="SaleContractOrderReceiptVoResultMap"/>
+        <collection columnPrefix="doc_"
+                    property="orderDocs"
+                    resultMap="SaleContractOrderDocVoResultMap"/>
+        <collection columnPrefix="cus_doc_"
+                    property="customerDocs"
+                    resultMap="SaleContractCustomerDocVoResultMap"/>
+        <collection columnPrefix="follow_"
+                    property="orderFollows"
+                    resultMap="SaleContractOrderFollowVoResultMap"/>
+        <collection columnPrefix="netsigndocLog_"
+                    property="netSignDocLogs"
+                    resultMap="SaleContractOrderNetsigndocLogVoResultMap"/>
+    </resultMap>
+
+    <resultMap id="OrderReportResultMap"
+               type="com.manyi.iw.contract.soa.api.model.vo.sale.report.QueryOrderReportResult$OrderReport">
+        <id column="mortgage_loan_id"/>
+        <association columnPrefix="order_"
+                     property="order"
+                     resultMap="com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderReadDao.BaseResultMap"/>
+        <association columnPrefix="mortgage_loan_"
+                     property="mortgageLoan"
+                     resultMap="com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderMortgageLoanReadDao.BaseResultMap"/>
+    </resultMap>
+
+    <resultMap id="ReceiptOrderReportResultMap"
+               type="com.manyi.iw.contract.soa.api.model.vo.sale.report.QueryReceiptOrderReportResult$ReceiptOrderReport">
+        <id column="receipt_id"/>
+        <association columnPrefix="receipt_"
+                     property="receipt"
+                     resultMap="com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderReceiptReadDao.BaseResultMap"/>
+        <association columnPrefix="order_"
+                     property="order"
+                     resultMap="com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderReadDao.BaseResultMap"/>
+        <association columnPrefix="trade_"
+                     property="trade"
+                     resultMap="com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractTradeTransactionReadDao.BaseResultMap"/>
+    </resultMap>
+
+    <sql id="searchOrderWhere" lang="velocity">
+        #{where}()
+        #{if}(${_parameter.userId})
+        AND userId = @{_parameter.userId}
+        #{end}
+        #{if}(${_parameter.cityId})
+        AND cityId = @{_parameter.cityId}
+        #{end}
+        #{if}(${_parameter.bigAreaId})
+        AND bigAreaId = @{_parameter.bigAreaId}
+        #{end}
+        #{if}(${_parameter.areaId})
+        AND areaId = @{_parameter.areaId}
+        #{end}
+        #{if}(${_parameter.mendianId})
+        AND mendianId = @{_parameter.mendianId}
+        #{end}
+        #{if}(${_parameter.groupId})
+        AND groupId = @{_parameter.groupId}
+        #{end}
+        #{if}(${_parameter.agentId})
+        AND agentId = @{_parameter.agentId}
+        #{end}
+        #{if}(${_parameter.orderCode} and ${_parameter.orderCode}!="")
+        AND code = @{_parameter.orderCode}
+        #{end}
+        #{if}(${_parameter.orderState} and ${_parameter.orderState.size()} != 0)
+        AND
+        #{in}(${_parameter.orderState} $state "state")
+        @{state}
+        #{end}
+        #{end}
+        #{if}(${_parameter.orderCreateTimeStart})
+        AND orderCreateTime >= @{_parameter.orderCreateTimeStart}
+        #{end}
+        #{if}(${_parameter.orderCreateTimeEnd})
+        AND orderCreateTime <![CDATA[<=]]> @{_parameter.orderCreateTimeEnd}
+        #{end}
+        #{if}(${_parameter.xiadingTimeStart})
+        AND xiadingTime >= @{_parameter.xiadingTimeStart}
+        #{end}
+        #{if}(${_parameter.xiadingTimeEnd})
+        AND xiadingTime <![CDATA[<=]]> @{_parameter.xiadingTimeEnd}
+        #{end}
+        #{if}(${_parameter.formalContractTimeStart})
+        AND formalContractTime >= @{_parameter.formalContractTimeStart}
+        #{end}
+        #{if}(${_parameter.formalContractTimeEnd})
+        AND formalContractTime <![CDATA[<=]]> @{_parameter.formalContractTimeEnd}
+        #{end}
+        #{if}(${_parameter.houseAreaId})
+        AND houseAreaId = @{_parameter.houseAreaId}
+        #{end}
+        #{if}(${_parameter.commissionRatio})
+        #{if}(${_parameter.commissionRatioQuery} and ${_parameter.commissionRatioQuery} == 1)
+        AND IFNULL(paidCommission, 0) > (IFNULL(commission, 0) * @{_parameter.commissionRatio})
+        #{elseif}(${_parameter.commissionRatioQuery} and ${_parameter.commissionRatioQuery} == 2)
+        AND IFNULL(paidCommission, 0) <![CDATA[<]]> (IFNULL(commission, 0) * @{_parameter.commissionRatio})
+        #{elseif}(${_parameter.commissionRatioQuery} and ${_parameter.commissionRatioQuery} == 3)
+        AND IFNULL(paidCommission, 0) >= (IFNULL(commission, 0) * @{_parameter.commissionRatio})
+        #{elseif}(${_parameter.commissionRatioQuery} and ${_parameter.commissionRatioQuery} == 4)
+        AND IFNULL(paidCommission, 0) <![CDATA[<=]]> (IFNULL(commission, 0) * @{_parameter.commissionRatio})
+        #{else}
+        AND IFNULL(paidCommission, 0) = (IFNULL(commission, 0) * @{_parameter.commissionRatio})
+        #{end}
+        #{end}
+        #{if}(${_parameter.loanId})
+        AND loanId = @{_parameter.loanId}
+        #{end}
+        #{if}(${_parameter.tradeId})
+        AND tradeId = @{_parameter.tradeId}
+        #{end}
+        #{end}
+    </sql>
+
+    <sql id="limit">
+        #{if}(${_parameter.limit})
+        LIMIT
+        #{if}(${_parameter.start})
+        @{_parameter.start},
+        #{end}
+        @{_parameter.limit}
+        #{end}
+    </sql>
+
+    <select id="searchOrder"
+            lang="velocity"
+            resultMap="OrderVoResultMap">
+        select
+        <include
+                refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderReadDao.Base_Column_List'/>
+        from iw_sale_contract_order
+        <include refid="searchOrderWhere"/>
+        order by createTime desc
+        <include refid="limit"/>
+    </select>
+
+    <select id="countSearchOrder" lang="velocity" resultType="java.lang.Integer">
+        select count(id) from iw_sale_contract_order
+        <include refid="searchOrderWhere"/>
+    </select>
+
+    <select id="getOrderDetail" lang="velocity" resultMap="OrderDetailResultMap">
+        SELECT
+        #{prefix}("
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderReadDao.Base_Column_List'/>
+        " "," "o." "order_")
+        #{if}(${_parameter.needReceipts})
+        ,#{prefix}("
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderReceiptReadDao.Base_Column_List'/>
+        " "," "r." "receipt_")
+        ,#{prefix}("
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderReceiptReadDao.Base_Column_List'/>
+        " "," "r." "receipt_")
+        #{end}
+        #{if}(${_parameter.needDocs})
+        ,#{prefix}("
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderDocReadDao.Base_Column_List'/>
+        " "," "d." "doc_")
+        #{end}
+
+        #{if}(${_parameter.needCustomerDocs})
+        ,#{prefix}("
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractCustomerDocReadDao.Base_Column_List'/>
+        " "," "cusd." "cus_doc_")
+        #{end}
+
+        #{if}(${_parameter.needFollows})
+        ,#{prefix}("
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderFollowReadDao.Base_Column_List'/>
+        " "," "f." "follow_")
+        ,#{prefix}("
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderFollowReadDao.Blob_Column_List'/>
+        " "," "f." "follow_")
+        #{end}
+
+        #{if}(${_parameter.needLoanTrade})
+        ,#{prefix}("
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractLoanAndTradeReadDao.Base_Column_List'/>
+        " "," "lt." "loan_trade_")
+        ,#{prefix}("
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractLoanAndTradeReadDao.Blob_Column_List'/>
+        " "," "lt." "loan_trade_")
+        #{end}
+
+        #{if}(${_parameter.needNetSignDocLog})
+        ,#{prefix}("
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderNetsigndocLogReadDao.Base_Column_List'/>
+        " "," "nsdl." "netsigndocLog_")
+        ,#{prefix}("
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderNetsigndocLogReadDao.Blob_Column_List'/>
+        " "," "nsdl." "netsigndocLog_")
+        #{end}
+
+        #{if}(${_parameter.needAttribute})
+        ,#{prefix}("
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderAttributeReadDao.Base_Column_List'/>
+        " "," "attr." "order_att_")
+        ,#{prefix}("
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderAttributeReadDao.Blob_Column_List'/>
+        " "," "attr." "order_att_")
+        #{end}
+
+        FROM
+        iw_sale_contract_order o
+        #{if}(${_parameter.needReceipts})
+        LEFT JOIN iw_sale_contract_order_receipt r
+        ON o.id = r.orderId and r.valid = 1
+        #{end}
+        #{if}(${_parameter.needDocs})
+        LEFT JOIN iw_sale_contract_order_doc d
+        ON o.id = d.orderId and d.valid = 1
+        LEFT JOIN iw_sale_contract_customer_doc cusd
+        ON o.id = cusd.orderId
+        #{end}
+        #{if}(${_parameter.needFollows})
+        LEFT JOIN iw_sale_contract_order_follow f
+        ON o.id = f.orderId
+        #{end}
+        #{if}(${_parameter.needLoanTrade})
+        LEFT JOIN iw_sale_contract_loan_and_trade lt
+        ON o.id = lt.orderId
+        #{end}
+        #{if}(${_parameter.needPutOnRecords})
+        LEFT JOIN iw_sale_contract_put_on_records pr
+        ON o.id = pr.orderId
+        #{end}
+        #{if}(${_parameter.needAttribute})
+        LEFT JOIN iw_sale_contract_order_attribute attr
+        ON o.id = attr.orderId
+        #{end}
+        #{if}(${_parameter.needNetSignDocLog})
+        LEFT JOIN iw_sale_contract_order_netsigndoc_log nsdl
+        ON o.id = nsdl.orderId
+        #{end}
+
+        #{where}()
+        #{in}(${_parameter.orderId} $id "o.id")
+        @{id}
+        #{end}
+        #{end}
+
+        order by FIELD(o.id,
+        #repeat( ${_parameter.orderId} $id "," "" "" )
+        @{id}
+        #end
+        )
+        #{if}(${_parameter.needReceipts})
+        ,r.createTime desc
+        #{end}
+        #{if}(${_parameter.needFollows})
+        ,f.followTime desc
+        #{end}
+        #{if}(${_parameter.needPutOnRecords})
+        ,pr.createTime desc
+        #{end}
+        #{if}(${_parameter.needNetSignDocLog})
+        ,nsdl.createTime desc
+        #{end}
+    </select>
+
+    <sql id="searchCommissionJoin">
+        LEFT JOIN iw_sale_contract_order_attribute a on o.id = a.orderId
+    </sql>
+    <sql id="searchCommissionWhere">
+
+        <if test="param.cityId != null and param.cityId != 0">
+            and o.cityId = #{param.cityId}
+        </if>
+        <if test="param.areaId != null and param.areaId != 0">
+            and o.areaId = #{param.areaId}
+        </if>
+        <if test="param.bigAreaId != null and param.bigAreaId != 0">
+            and o.bigAreaId = #{param.bigAreaId}
+        </if>
+        <if test="param.mendianId != null and param.mendianId != 0">
+            and o.mendianId = #{param.mendianId}
+        </if>
+        <if test="param.groupId != null and param.groupId != 0">
+            and o.groupId = #{param.groupId}
+        </if>
+        <if test="param.agentId != null and param.agentId != 0">
+            and o.agentId = #{param.agentId}
+        </if>
+        <if test="param.orderCode != null and param.orderCode != ''">
+            and o.code = #{param.orderCode}
+        </if>
+        <if test="param.orderState != null and param.orderState != ''">
+            and o.state in
+            <foreach open="(" close=")" collection="param.orderStateList" item="state" separator=",">
+                #{state}
+            </foreach>
+        </if>
+        <if test="param.exceptionState != null">
+            and o.specialState = #{param.exceptionState}
+        </if>
+        <if test="param.commissionTakeRateStart != null ">
+            and (o.commission)/(o.totalPrice) <![CDATA[ >= ]]> #{param.commissionTakeRateStart}/10000
+        </if>
+        <if test="param.commissionTakeRateEnd != null ">
+            and (o.commission)/(o.totalPrice) <![CDATA[ <= ]]> #{param.commissionTakeRateEnd}/10000
+        </if>
+    </sql>
+
+    <select id="searchCommission" parameterType="com.manyi.iw.contract.soa.api.model.vo.sale.SearchCommissionParam"
+            resultType="com.manyi.iw.contract.soa.api.model.vo.sale.SearchCommissionResult$SaleContractOrderCommissionVo">
+        select
+        o.id as orderId, o.state as orderState, o.code as orderCode, o.mendianId, o.agentId, o.totalPrice as housePrice,
+        o.commission as commissionActually,
+        a.discountCommission as commissionReport
+        from iw_sale_contract_order o
+        <include refid="searchCommissionJoin"/>
+        where 1 = 1
+        <include refid="searchCommissionWhere"/>
+
+        <if test="param.orderBy">
+            order by ${param.orderBy}
+        </if>
+        <if test="param.limit">
+            limit
+            <if test="param.start">
+                #{param.start},
+            </if>
+            #{param.limit}
+        </if>
+    </select>
+
+    <select id="countCommission" parameterType="com.manyi.iw.contract.soa.api.model.vo.sale.SearchCommissionParam"
+            resultType="int">
+        select
+        count(o.id)
+        from iw_sale_contract_order o
+        <include refid="searchCommissionJoin"/>
+        where 1 = 1
+        <include refid="searchCommissionWhere"/>
+    </select>
+
+    <select id="getConfirmReceiptTotalMoney" parameterType="com.manyi.iw.contract.soa.api.model.vo.sale.GetConfirmReceiptTotalMoneyParam"
+            resultType="com.manyi.iw.contract.soa.api.model.vo.sale.GetConfirmReceiptTotalMoneyResult">
+        select sum(r.money) as totalMoney
+        from iw_sale_contract_order_receipt r
+        where r.valid=1 and r.state=2
+        <if test="_parameter.orderId">
+          and orderId = #{_parameter.orderId}
+        </if>
+        <if test="_parameter.types">
+          and r.type in
+            <foreach open="(" close=")" collection="_parameter.types" item="type" separator=",">
+                #{type}
+            </foreach>
+        </if>
+        group by r.orderId
+    </select>
+    
+    
+    <select id="queryOrderById" lang="velocity" resultMap="SaleContractOrderVoResultMap">
+        SELECT
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderReadDao.Base_Column_List'/>
+        from iw_sale_contract_order o
+        #{where}()
+        #{in}(${_parameter.orderId} $id "o.id")
+        @{id}
+        #{end}
+        #{end}
+        order by FIELD(o.id,
+        #repeat( ${_parameter.orderId} $id "," "" "" )
+        @{id}
+        #end
+        )
+    </select>
+
+    <select id="queryAttrByOrderId" lang="velocity" resultMap="SaleContractAttributeVoResultMap">
+        SELECT
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderAttributeReadDao.Base_Column_List'/>
+        ,
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderAttributeReadDao.Blob_Column_List'/>
+        from iw_sale_contract_order_attribute a
+        #{where}()
+        #{in}(${_parameter.orderId} $id "a.orderId")
+        @{id}
+        #{end}
+        #{end}
+    </select>
+
+    <select id="queryDocByOrderId" resultMap="SaleContractOrderDocVoResultMap" lang="velocity">
+        SELECT
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderDocReadDao.Base_Column_List'/>
+        from iw_sale_contract_order_doc d
+        #{where}()
+        #{in}(${_parameter.orderId} $id "d.orderId")
+        @{id}
+        #{end}
+        and valid = 1
+        #{end}
+    </select>
+    <select id="queryReceiptByOrderId" resultMap="SaleContractOrderReceiptVoResultMap" lang="velocity">
+        SELECT
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderReceiptReadDao.Base_Column_List'/>
+        ,
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderReceiptReadDao.Base_Column_List'/>
+        from iw_sale_contract_order_receipt r
+        #{where}()
+        #{in}(${_parameter.orderId} $id "r.orderId")
+        @{id}
+        #{end}
+        and valid = 1
+        #{end}
+        ORDER  by r.createTime desc
+    </select>
+    <select id="queryFollowByOrderId" resultMap="SaleContractOrderFollowVoResultMap" lang="velocity">
+        SELECT
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderFollowReadDao.Base_Column_List'/>
+        ,
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderFollowReadDao.Blob_Column_List'/>
+        from iw_sale_contract_order_follow f
+        #{where}()
+        #{in}(${_parameter.orderId} $id "f.orderId")
+        @{id}
+        #{end}
+        #{end}
+        order by f.followTime desc
+    </select>
+    <select id="queryNetSignDocLogByOrderId" resultMap="SaleContractOrderNetsigndocLogVoResultMap" lang="velocity">
+        SELECT
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderNetsigndocLogReadDao.Base_Column_List'/>
+        ,
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderNetsigndocLogReadDao.Blob_Column_List'/>
+        from iw_sale_contract_order_netsigndoc_log l
+        #{where}()
+        #{in}(${_parameter.orderId} $id "l.orderId")
+        @{id}
+        #{end}
+        #{end}
+        order by l.createTime desc
+    </select>
+
+    <select id="queryLoanTradeByOrderId" resultMap="SaleContractLoanTradeVoResultMap" lang="velocity">
+       SELECT
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractLoanAndTradeReadDao.Base_Column_List'/>
+        ,
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractLoanAndTradeReadDao.Blob_Column_List'/>
+        from iw_sale_contract_loan_and_trade l
+        #{where}()
+        #{in}(${_parameter.orderId} $id "l.orderId")
+        @{id}
+        #{end}
+        #{end}
+    </select>
+
+    <select id="queryCustomerDocByOrderId" resultMap="SaleContractCustomerDocVoResultMap" lang="velocity">
+       SELECT
+       <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractCustomerDocReadDao.Base_Column_List'/>
+       from iw_sale_contract_customer_doc d
+        #{where}()
+        #{in}(${_parameter.orderId} $id "d.orderId")
+        @{id}
+        #{end}
+        #{end}
+    </select>
+
+    <select id="queryTradeByOrderId" resultMap="TradeDetailResultMap" lang="velocity">
+        SELECT
+        #{prefix}("
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderReceiptReadDao.Base_Column_List'/>
+        " "," "r." "receipt_")
+        ,#{prefix}("
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractTradeTransactionReadDao.Base_Column_List'/>
+        " "," "t." "trade_")
+        from iw_sale_contract_trade_transaction t
+        left join iw_sale_contract_order_receipt r on r.tradeId = t.id
+        left join iw_sale_contract_order o on o.id = r.orderId
+        #{where}()
+        r.valid = 1
+        and t.state != 4
+        AND
+        #{in}(${_parameter.orderId} $id "o.id")
+        @{id}
+        #{end}
+        #{end}
+    </select>
+
+    <select id="queryDocDetailByOrderId" resultMap="DocDetailResultMap" lang="velocity">
+        SELECT
+        #{prefix}("<include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderDocReadDao.Base_Column_List'/>
+        " "," "d." "doc_")
+        ,#{prefix}("
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderDocItemReadDao.Base_Column_List'/>
+        " "," "i." "item_")
+        from iw_sale_contract_order_doc d
+        left join iw_sale_contract_order_doc_item i on d.id = i.docId
+        #{where}()
+        #{in}(${_parameter.orderId} $id "d.orderId")
+        @{id}
+        #{end}
+        and d.valid = 1
+        #{end}
+    </select>
+
+    <select id="queryOutAccountDetail" resultMap="OutAccountDetailResultMap" lang="velocity">
+        SELECT
+        #{prefix}("<include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderOutaccountDetailReadDao.Base_Column_List'/>
+        " "," "detail." "out_account_detail_")
+        , #{prefix}("<include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderOutAccountReadDao.Base_Column_List'/>
+        " "," "account." "out_account_")
+        ,#{prefix}("
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderOutAccountItemReadDao.Base_Column_List'/>
+        " "," "account_item." "out_account_item_")
+        ,#{prefix}("
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderOutAccountLogReadDao.Base_Column_List'/>
+        " "," "account_log." "out_account_log_")
+        from iw_sale_contract_order_outaccount_detail detail
+        left join iw_sale_contract_order_out_account account on detail.outAccountId = account.id
+        left join iw_sale_contract_order_out_account_log account_log on detail.outAccountId = account_log.outAccountId
+        left join iw_sale_contract_order_out_account_item account_item on detail.outAccountId = account_item.outAccountId and account_item.valid = 1
+        #{where}()
+        #{in}(${_parameter.orderId} $id "detail.orderId")
+        @{id}
+        #{end}
+        and account.valid = 1 and detail.money != 0 and detail.valid = 1
+        order by account.timeApply desc,account_log.operateTime desc
+        #{end}
+    </select>
+
+    <select id="queryCapitalDetail" resultMap="com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderCapitalReadDao.BaseResultMap" lang="velocity">
+        SELECT
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderCapitalReadDao.Base_Column_List'/>
+        FROM iw_sale_contract_order_capital
+        #{where}()
+        #{in}(${_parameter.orderId} $id "orderId")
+        @{id}
+        #{end}
+        #{end}
+    </select>
+
+    <select id="queryAlloctePersionListByOrderId" resultMap="com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderAllocationPersionReadDao.BaseResultMap" lang="velocity">
+        SELECT
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderAllocationPersionReadDao.Base_Column_List'/>
+        from iw_sale_contract_order_allocation_persion
+        #{where}()
+        #{in}(${_parameter.orderId} $id "orderId")
+        @{id}
+        #{end}
+        and valid = 1
+        #{end}
+
+    </select>
+
+    <select id="hasUnResolvedOrders" resultType="java.lang.Integer">
+      select count(1) FROM iw_sale_contract_order
+      where (agentId=#{agentId} and flowAgentId is null)
+      and state in (30,40,50) limit 1
+    </select>
+
+    <select id="hasUnReSolveTransationOrders" resultType="java.lang.Integer" parameterType="Map">
+        select count(1) FROM iw_sale_contract_order o
+        left join iw_sale_contract_order_allocation_persion p on o.id = p.orderId
+    where
+        p.valid=1
+    <if test="orgType == 1">
+        AND o.tradeMendian = #{mendianId}
+    </if>
+    <if test="orgType == 2">
+        AND o.loanMendian = #{mendianId}
+    </if>
+    <if test="orgType == 3">
+        AND o.signMendian = #{mendianId}
+    </if>
+    and p.agentId = #{agentId}
+    and p.type = #{orgType}
+    and state in (30,40,50)
+    limit 1
+    </select>
+
+    <select id="hasUnReSolveTransationOrdersWithoutMendian" resultType="java.lang.Integer" parameterType="Map">
+        select count(1) FROM iw_sale_contract_order o
+        left join iw_sale_contract_order_allocation_persion p on o.id = p.orderId
+        where
+        p.valid=1
+        and p.agentId = #{agentId}
+        and state in (30,40,50)
+        limit 1
+    </select>
+
+    <select id="personnelChanges" parameterType="java.lang.Long" resultType="com.manyi.iw.contract.soa.api.model.po.mbg.SaleContractOrder">
+        select
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderReadDao.Base_Column_List'/>
+        FROM iw_sale_contract_order
+        where (agentId=#{agentId} and flowAgentId is null)
+        and state in (30,40,50)
+    </select>
+
+    <select id="queryOrderReportList" resultMap="OrderReportResultMap" lang="velocity">
+        SELECT
+        #{prefix}("
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderReadDao.Base_Column_List'/>
+        " "," "o." "order_")
+        ,#{prefix}("
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderMortgageLoanReadDao.Base_Column_List'/>
+        " "," "ml." "mortgage_loan_")
+        FROM
+        iw_sale_contract_order_mortgage_loan ml
+        LEFT JOIN iw_sale_contract_order o
+        on ml.orderId = o.id
+        WHERE 1 = 1
+        <include refid="reportSql"/>
+        <include refid="orderBy"/>
+        <include refid="limit"/>
+    </select>
+
+    <select id="queryOrderReportCount" resultType="java.lang.Integer" lang="velocity">
+        SELECT
+        COUNT(1)
+        FROM
+        iw_sale_contract_order_mortgage_loan ml
+        LEFT JOIN iw_sale_contract_order o
+        on ml.orderId = o.id
+        WHERE 1 = 1
+        <include refid="reportSql"/>
+    </select>
+
+    <sql id="orderBy">
+        #{if}(${_parameter.orderBy} and ${_parameter.orderBy} != "")
+        order by ${_parameter.orderBy}
+        #{end}
+    </sql>
+    <sql id="reportSql">
+         #if(${_parameter.cityId} and ${_parameter.cityId} != 0 and ${_parameter.cityId} != -1)
+            AND o.cityId = @{_parameter.cityId}
+        #{end}
+        #{if}(${_parameter.queryType} and ${_parameter.queryType}!=""and ${_parameter.queryType}==6)
+            #{if}(${_parameter.operateTimeBegin})
+            AND ml.timeAcceptance <![CDATA[>=]]> @{_parameter.operateTimeBegin}
+            #{end}
+            #{if}(${_parameter.operateTimeEnd})
+            AND ml.timeAcceptance <![CDATA[<=]]> @{_parameter.operateTimeEnd}
+            #{end}
+        #{end}
+        #{if}(${_parameter.queryType} and ${_parameter.queryType}!=""and ${_parameter.queryType}==7)
+            #{if}(${_parameter.operateTimeBegin})
+            AND ml.timeVisaInterview <![CDATA[>=]]> @{_parameter.operateTimeBegin}
+            #{end}
+            #{if}(${_parameter.operateTimeEnd})
+            AND ml.timeVisaInterview <![CDATA[<=]]> @{_parameter.operateTimeEnd}
+            #{end}
+        #{end}
+        #{if}(${_parameter.queryType} and ${_parameter.queryType}!=""and ${_parameter.queryType}==8)
+            #{if}(${_parameter.operateTimeBegin})
+            AND ml.timeGrantLoan <![CDATA[>=]]> @{_parameter.operateTimeBegin}
+            #{end}
+            #{if}(${_parameter.operateTimeEnd})
+            AND ml.timeGrantLoan <![CDATA[<=]]> @{_parameter.operateTimeEnd}
+            #{end}
+        #{end}
+    </sql>
+
+    <select id="queryReceiptOrderReportList" resultMap="ReceiptOrderReportResultMap" lang="velocity">
+        SELECT
+        #{prefix}("
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderReceiptReadDao.Base_Column_List'/>
+        " "," "r." "receipt_")
+        ,
+        #{prefix}("
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderReadDao.Base_Column_List'/>
+        " "," "o." "order_")
+        ,
+        #{prefix}("
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractTradeTransactionReadDao.Base_Column_List'/>
+        " "," "t." "trade_")
+        from iw_sale_contract_order_receipt r
+        <include refid="searchOrderJoin" />
+        <include refid="searchTradeJoin" />
+        <include refid="searchWhere" />
+        <include refid="orderBy"/>
+        <include refid="limit"/>
+    </select>
+    <select id="queryReceiptOrderReportCount" resultType="int" lang="velocity">
+        SELECT  COUNT(1)
+        from iw_sale_contract_order_receipt r
+        <include refid="searchOrderJoin" />
+        <include refid="searchTradeJoin" />
+        <include refid="searchWhere" />
+    </select>
+
+    <sql id="searchTradeJoin">
+        LEFT JOIN iw_sale_contract_trade_transaction t on  r.tradeId = t.id
+    </sql>
+    <sql id="searchOrderJoin">
+        LEFT JOIN iw_sale_contract_order o on o.id = r.orderId
+    </sql>
+    <sql id="searchWhere">
+        WHERE r.valid = 1 AND t.valid = 1
+        #if(${_parameter.cityId} and ${_parameter.cityId} != 0 and ${_parameter.cityId} != -1)
+            AND o.cityId = @{_parameter.cityId}
+        #{end}
+        #{if}(${_parameter.operateTimeBegin})
+        AND t.tradeCompleteTime <![CDATA[>=]]> @{_parameter.operateTimeBegin}
+        #{end}
+        #{if}(${_parameter.operateTimeEnd})
+        AND t.tradeCompleteTime <![CDATA[<=]]> @{_parameter.operateTimeEnd}
+        #{end}
+    </sql>
+
+    <select id="queryTradeByOrderIdWithoutState" resultMap="TradeDetailResultMap" lang="velocity">
+        SELECT
+        #{prefix}("
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderReceiptReadDao.Base_Column_List'/>
+        " "," "r." "receipt_")
+        ,#{prefix}("
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractTradeTransactionReadDao.Base_Column_List'/>
+        " "," "t." "trade_")
+        from iw_sale_contract_trade_transaction t
+        left join iw_sale_contract_order_receipt r on r.tradeId = t.id
+        left join iw_sale_contract_order o on o.id = r.orderId
+        #{where}()
+        #{in}(${_parameter.orderId} $id "o.id")
+        @{id}
+        #{end}
+        order by t.createTime asc
+        #{end}
+    </select>
+
+    <select id="queryOrderByParams" lang="velocity" resultMap="BatchSearchOrderResultMap">
+        SELECT
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderReadDao.Base_Column_List'/>
+        from iw_sale_contract_order o
+        #{where}()
+        #{in}(${_parameter.orderCodes} $code "o.code")
+        @{code}
+        #{end}
+        #{end}
+        order by FIELD(o.code,
+        #repeat( ${_parameter.orderCodes} $code "," "" "" )
+        @{code}
+        #end
+        )
+    </select>
+
+    <select id="selectOrderByCityId" lang="velocity"
+            parameterType="map"
+            resultType="com.manyi.iw.contract.soa.api.model.po.mbg.SaleContractOrder">
+        SELECT
+        o.id,o.cityId,o.agentId,o.flowAgentId,o.userId,o.userCityBizId,o.userSource
+        from iw_sale_contract_order o
+        #{where}()
+        o.userCityBizId is null or o.userSource is null
+        and o.cityId = @{cityId}
+        #{if}(${limit} != '')
+        LIMIT
+        #{if}(${start} != '')
+        @{start},
+        #{end}
+        @{limit}
+        #{end}
+        #end
+    </select>
+
+    <select id="countOrderByCityId" lang="velocity"
+            resultType="java.lang.Integer">
+        SELECT
+        count(1)
+        from iw_sale_contract_order o
+        #{where}()
+        o.userCityBizId is null or o.userSource is null
+        and o.cityId = @{cityId}
+        #end
+    </select>
+
+    <select id="getCapitalIncomeOrderByCons" lang="velocity"
+            resultMap="com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderReadDao.BaseResultMap">
+        select
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderReadDao.Base_Column_List'/>
+        from iw_sale_contract_order
+        where state in (30,40,50) and (orderStateExtra is null or orderStateExtra=3)
+    </select>
+
+    <select id="queryOrderByCons"
+            lang="velocity"
+            resultType="com.manyi.iw.contract.soa.api.model.vo.sale.pos.GetOrderByConsResult$SaleOrder"
+            parameterType="com.manyi.iw.contract.soa.api.model.vo.sale.pos.GetOrderByConsParam">
+        SELECT
+        o.id,o.state,o.code,o.premisesPermitAddr,o.houseId,o.totalPrice,
+        o.commission,o.baozhangMoney,o.yezhuMoney as zhidingkuaixiaoMoney
+        from iw_sale_contract_order o
+        #{where}()
+          #{in}(${_parameter.states} $state "o.state")
+          @{state}
+          #{end}
+          #{if}(${_parameter.agentId})
+          and (o.agentId = @{_parameter.agentId} or o.flowAgentId = @{_parameter.agentId})
+          #end
+        #end
+
+    </select>
+
+    <select id="getOrdersByCons" lang="velocity"
+            resultMap="com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderReadDao.BaseResultMap">
+        select
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderReadDao.Base_Column_List'/>
+        from iw_sale_contract_order o
+        #{where}()
+        #{in}(${_parameter.houseIds} $houseId "o.houseId")
+        @{houseId}
+        #{end}
+        and
+        (
+        #{in}(${_parameter.orderStates} $state "o.state")
+        @{state}
+        #{end}
+        #{if}(${_parameter.legalComplete})
+            OR o.orderStateExtra = 2
+        #{end}
+        #{if}(${_parameter.legalCanCel})
+            OR o.orderStateExtra = 1
+        #{end}
+        #{if}(${_parameter.legalCanCel})
+            OR o.orderStateExtra = 3
+        #{end}
+        )
+        #end
+    </select>
+</mapper>

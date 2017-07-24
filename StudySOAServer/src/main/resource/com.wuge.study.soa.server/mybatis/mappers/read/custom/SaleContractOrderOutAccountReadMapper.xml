@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manyi.iw.contract.soa.server.mybatis.dao.read.custom.SaleContractOrderOutAccountReadDao">
+
+    <resultMap id="searchOutAccountMap" type="com.manyi.iw.contract.soa.api.model.vo.sale.outaccount.SearchOutAccountResult$SaleContractOutAccountListVo">
+        <id column="outAccountId" property="outAccountId"/>
+        <result column="outAccountId" property="outAccountId" />
+        <result column="agentId" property="agentId" />
+        <result column="outAccountApplyAgentId" property="outAccountApplyAgentId" />
+        <result column="outAccountApplyTime" property="outAccountApplyTime" />
+        <result column="outAccountCompleteTime" property="outAccountCompleteTime" />
+        <result column="outAccountType" property="outAccountType" />
+        <result column="outAccountWay" property="outAccountWay" />
+        <result column="outAccountToy" property="outAccountTo" />
+        <result column="outAccountMoney" property="outAccountMoney" />
+        <result column="outAccountState" property="outAccountState" />
+        <result column="outAccountRejectType" property="outAccountRejectType" />
+        <result column="orderId" property="orderId"/>
+        <result column="orderCode" property="orderCode" />
+        <result column="payeeName" property="payeeName" />
+        <result column="bankName" property="bankName" />
+        <result column="bankNum" property="bankNum" />
+        <result column="timeLegalApprove" property="timeLegalApprove" />
+        <result column="agentLegalApprove" property="agentLegalApprove" />
+        <result column="timeFinanceApprove" property="timeFinanceApprove" />
+        <result column="agentFinanceApprove" property="agentFinanceApprove" />
+        <result column="serialCode" property="serialCode" />
+        <result column="outAccountChannel" property="outAccountChannel" />
+        <result column="rejectType" property="rejectType" />
+        <result column="backTradeId" property="backTradeId" />
+    </resultMap>
+
+    <resultMap id="searchOutAccountIndexMap" type="com.manyi.iw.contract.soa.api.model.vo.sale.outaccount.SearchOutAccountIndexResult$SaleContractOutAccountIndexListVo">
+        <id column="outAccountId" property="outAccountId"/>
+        <result column="orderId" property="orderId" />
+        <result column="outAccountId" property="outAccountId" />
+        <result column="mendianId" property="mendianId" />
+        <result column="agentId" property="agentId" />
+        <result column="outAccountApplyAgentId" property="outAccountApplyAgentId" />
+        <result column="outAccountApplyTime" property="outAccountApplyTime" />
+        <result column="outAccountCompleteTime" property="outAccountCompleteTime" />
+        <result column="outAccountType" property="outAccountType" />
+        <result column="outAccountWay" property="outAccountWay" />
+        <result column="outAccountToy" property="outAccountTo" />
+        <result column="outAccountMoney" property="outAccountMoney" />
+        <result column="outAccountState" property="outAccountState" />
+        <result column="outAccountRejectType" property="outAccountRejectType" />
+        <result column="orderCode" property="orderCode" />
+        <result column="payeeName" property="payeeName" />
+        <result column="bankName" property="bankName" />
+        <result column="bankNum" property="bankNum" />
+        <result column="timeLegalApprove" property="timeLegalApprove" />
+        <result column="agentLegalApprove" property="agentLegalApprove" />
+        <result column="timeFinanceApprove" property="timeFinanceApprove" />
+        <result column="agentFinanceApprove" property="agentFinanceApprove" />
+        <result column="serialCode" property="serialCode" />
+        <result column="detailId" property="detailId" />
+    </resultMap>
+
+    <!--<resultMap extends="com.manyi.iw.contract.soa.server.mybatis.dao.write.mbg.MBGSaleContractOrderOutAccountLogReadDao.BaseResultMap"
+               id="SaleContractOrderOutAccountLogVoResultMap"
+               type="com.manyi.iw.contract.soa.api.model.vo.sale.GetOrderDetailResult$OrderDetail$SaleContractOrderOutAccountLogVo"/>-->
+    
+    <resultMap id="getBatchOutAccountMap" type="com.manyi.iw.contract.soa.api.model.vo.sale.outaccount.GetBatchAccountDetailResult">
+        <id column="out_account_id"></id>
+        <association
+                columnPrefix="out_account_"
+                property="outAccount"
+                resultMap="com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderOutAccountReadDao.BaseResultMap" />
+        <collection
+                columnPrefix="out_account_detail_"
+                property="outaccountDetailList"
+                resultMap="com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderOutaccountDetailReadDao.BaseResultMap" />
+       <!-- <collection columnPrefix="out_account_log_"
+                    property="outAccountLogVos"
+                    resultMap="SaleContractOrderOutAccountLogVoResultMap"/>-->
+    </resultMap>
+
+    <select id="searchOutAccount"
+            lang="velocity"
+            parameterType="com.manyi.iw.contract.soa.api.model.vo.sale.outaccount.SearchOutAccountParam"
+            resultMap="searchOutAccountMap">
+        select
+        <include refid="searchOutAccountField"/>
+        from iw_sale_contract_order_out_account a
+        left join iw_sale_contract_order o on a.orderId=o.id
+        left join iw_sale_contract_order_out_account_item i on a.id = i.outAccountId and i.valid=1
+        <include refid="searchOutAccountWhere"/>
+        <include refid="searchOutAccountLimit"/>
+    </select>
+
+    <select id="countOutAccount"
+            lang="velocity"
+            parameterType="com.manyi.iw.contract.soa.api.model.vo.sale.outaccount.SearchOutAccountParam"
+            resultType="int">
+        select
+        count(1)
+        from iw_sale_contract_order_out_account a
+        left join iw_sale_contract_order o on a.orderId=o.id
+        <include refid="searchOutAccountWhere"/>
+    </select>
+    <sql id="searchOutAccountField">
+        a.id as outAccountId,
+        o.id as orderId,
+        o.code as orderCode,
+      a.agentApply as outAccountApplyAgentId,a.timeApply as outAccountApplyTime,
+      a.timeFinanceOutAccount as outAccountCompleteTime,
+      a.outAccountType , a.outAccountWay, a.state as outAccountState, a.money as outAccountMoney,
+      a.rejectType as outAccountRejectType,
+      a.payeeName as payeeName,
+      a.bankName as bankName,
+      a.bankNum as bankNum,
+      a.timeLegalApprove as timeLegalApprove,
+      a.agentLegalApprove as agentLegalApprove,
+      a.timeFinanceApprove as timeFinanceApprove,
+      a.agentFinanceApprove as agentFinanceApprove,
+      i.outAccountItemType as outAccountTo,
+        a.serialCode as serialCode,
+        a.isBatch as isBatch,
+        a.outAccountChannel as outAccountChannel,
+        a.rejectType as rejectType,
+        a.backTradeId as backTradeId
+    </sql>
+    <sql id="searchOutAccountWhere">
+        WHERE
+        a.valid = 1
+        #{if}(${_parameter.outAccountTypeList} and ${_parameter.outAccountTypeList.size()} != 0)
+        AND
+        #{in}(${_parameter.outAccountTypeList} $outAccountType "a.outAccountType")
+        @{outAccountType}
+        #{end}
+        #{end}
+        #{if}(${_parameter.outAccountState})
+        AND a.state = @{_parameter.outAccountState}
+        #{end}
+        #{if}(${_parameter.cityId} and ${_parameter.cityId} != 0)
+        AND (o.cityId = @{_parameter.cityId} or a.cityId = @{_parameter.cityId})
+        #{end}
+        #{if}(${_parameter.outAccountWay})
+        AND a.outAccountWay = @{_parameter.outAccountWay}
+        #{end}
+        #{if}(${_parameter.outAccountWayRemark})
+            AND a.outAccountWayRemark = @{_parameter.outAccountWayRemark}
+        #{end}
+        #{if}(${_parameter.timeApplyStart})
+        AND a.timeApply <![CDATA[>=]]> @{_parameter.timeApplyStart}
+        #{end}
+        #{if}(${_parameter.timeApplyEnd})
+        AND a.timeApply <![CDATA[<=]]> @{_parameter.timeApplyEnd}
+        #{end}
+        #{if}(${_parameter.timeFinanceOutAccountStart})
+        AND a.timeFinanceOutAccount <![CDATA[>=]]> @{_parameter.timeFinanceOutAccountStart}
+        #{end}
+         #{if}(${_parameter.timeFinanceOutAccountEnd})
+        AND a.timeFinanceOutAccount <![CDATA[<=]]> @{_parameter.timeFinanceOutAccountEnd}
+        #{end}
+        #{if}(${_parameter.isBatch})
+        AND a.isBatch = @{_parameter.isBatch}
+        #{end}
+        #{if}(${_parameter.serialCode} and ${_parameter.serialCode}!="")
+        AND a.serialCode = @{_parameter.serialCode}
+        #{end}
+        #{if}(${_parameter.loginAgentId} and ${_parameter.loginAgentId}!="")
+        AND a.agentApply = @{_parameter.loginAgentId}
+        #{end}
+        order by a.timeApply desc
+    </sql>
+    <sql id="searchOutAccountLimit">
+        #{if}(${_parameter.limit})
+        LIMIT
+        #{if}(${_parameter.start})
+        @{_parameter.start},
+        #{end}
+        @{_parameter.limit}
+        #{end}
+    </sql>
+
+    <sql id="searchOutAccountIndexField">
+        o.code as orderCode ,o.id as orderId,o.mendianId,o.agentId,a.id as outAccountId,
+        a.agentApply as outAccountApplyAgentId,a.timeApply as outAccountApplyTime,
+        a.timeFinanceOutAccount as outAccountCompleteTime,
+        a.outAccountType , a.outAccountWay, a.state as outAccountState, t.money as outAccountMoney,
+        a.rejectType as outAccountRejectType,
+        a.payeeName as payeeName,
+        a.bankName as bankName,
+        a.bankNum as bankNum,
+        a.timeLegalApprove as timeLegalApprove,
+        a.agentLegalApprove as agentLegalApprove,
+        a.timeFinanceApprove as timeFinanceApprove,
+        a.agentFinanceApprove as agentFinanceApprove,
+        i.outAccountItemType as outAccountTo,
+        a.serialCode as serialCode,
+        a.isBatch as isBatch,
+        t.id as detailId
+    </sql>
+    <sql id="searchOutAccountIndexWhere">
+        WHERE
+        a.valid = 1 and t.valid=1
+        #{if}(${_parameter.orderStates} and ${_parameter.orderStates.size()} != 0)
+        AND
+        #{in}(${_parameter.orderStates} $state "o.state")
+        @{state}
+        #{end}
+        #{end}
+        #{if}(${_parameter.outAccountTypeList} and ${_parameter.outAccountTypeList.size()} != 0)
+        AND
+        #{in}(${_parameter.outAccountTypeList} $outAccountType "a.outAccountType")
+        @{outAccountType}
+        #{end}
+        #{end}
+        #{if}(${_parameter.isTrade})
+            #{if}(${_parameter.fwqId} and ${_parameter.fwqId} != 0)
+            AND o.loanMendian = @{_parameter.fwqId}
+            #{elseif}(${_parameter.tradeCityId} and ${_parameter.tradeCityId} != 0)
+            AND o.cityId = @{_parameter.tradeCityId}
+            #{end}
+        #{else}
+            #{if}(${_parameter.agentId} and ${_parameter.agentId} != 0 and ${_parameter.agentId} != -1)
+            AND o.agentId = @{_parameter.agentId}
+            #{elseif}(${_parameter.groupId} and ${_parameter.groupId} != 0 and ${_parameter.groupId} != -1)
+            AND o.groupId = @{_parameter.groupId}
+            #{elseif}(${_parameter.mendianId} and ${_parameter.mendianId} != 0 and ${_parameter.mendianId} != -1)
+            AND o.mendianId = @{_parameter.mendianId}
+            #{elseif}(${_parameter.areaId} and ${_parameter.areaId} != 0 and ${_parameter.areaId} != -1)
+            AND o.areaId = @{_parameter.areaId}
+            #{elseif}(${_parameter.bigAreaId} and ${_parameter.bigAreaId} != 0 and ${_parameter.bigAreaId} != -1)
+            AND o.bigAreaId = @{_parameter.bigAreaId}
+            #{elseif}(${_parameter.cityId} and ${_parameter.cityId} != 0 and ${_parameter.cityId} != -1)
+            AND o.cityId = @{_parameter.cityId}
+            #{end}
+        #{end}
+        #{if}(${_parameter.orderCode} and ${_parameter.orderCode}!="")
+        AND o.code = @{_parameter.orderCode}
+        #{end}
+        #{if}(${_parameter.specialState})
+        AND o.specialState = @{_parameter.specialState}
+        #{end}
+        #{if}(${_parameter.outAccountState})
+        AND a.state = @{_parameter.outAccountState}
+        #{end}
+        #{if}(${_parameter.outAccountWay})
+        AND a.outAccountWay = @{_parameter.outAccountWay}
+        #{end}
+        #{if}(${_parameter.outAccountWayRemark})
+        AND a.outAccountWayRemark = @{_parameter.outAccountWayRemark}
+        #{end}
+        #{if}(${_parameter.timeApplyStart})
+        AND a.timeApply <![CDATA[>=]]> @{_parameter.timeApplyStart}
+        #{end}
+        #{if}(${_parameter.timeApplyEnd})
+        AND a.timeApply <![CDATA[<=]]> @{_parameter.timeApplyEnd}
+        #{end}
+        #{if}(${_parameter.timeFinanceOutAccountStart})
+        AND a.timeFinanceOutAccount <![CDATA[>=]]> @{_parameter.timeFinanceOutAccountStart}
+        #{end}
+        #{if}(${_parameter.timeFinanceOutAccountEnd})
+        AND a.timeFinanceOutAccount <![CDATA[<=]]> @{_parameter.timeFinanceOutAccountEnd}
+        #{end}
+        #{if}(${_parameter.isBatch})
+        AND a.isBatch = @{_parameter.isBatch}
+        #{end}
+        #{if}(${_parameter.serialCode} and ${_parameter.serialCode}!="")
+        AND a.serialCode = @{_parameter.serialCode}
+        #{end}
+        order by t.id desc
+    </sql>
+    <select id="searchOutAccountIndex"
+            lang="velocity"
+            parameterType="com.manyi.iw.contract.soa.api.model.vo.sale.outaccount.SearchOutAccountIndexParam"
+            resultMap="searchOutAccountIndexMap">
+        select
+        <include refid="searchOutAccountIndexField"/>
+        from iw_sale_contract_order_outaccount_detail t
+        left join iw_sale_contract_order_out_account a on t.outAccountId = a.id
+        left join iw_sale_contract_order o on t.orderId=o.id
+        left join iw_sale_contract_order_out_account_item i on a.id = i.outAccountId and i.valid=1
+        <include refid="searchOutAccountIndexWhere"/>
+        <include refid="searchOutAccountLimit"/>
+    </select>
+
+    <select id="countOutAccountIndex"
+            lang="velocity"
+            parameterType="com.manyi.iw.contract.soa.api.model.vo.sale.outaccount.SearchOutAccountIndexParam"
+            resultType="int">
+        select
+        count(1)
+        from iw_sale_contract_order_outaccount_detail t
+        left join iw_sale_contract_order_out_account a on t.outAccountId = a.id
+        left join iw_sale_contract_order o on t.orderId=o.id
+        <include refid="searchOutAccountIndexWhere"/>
+    </select>
+
+    <select id="getBatchOutAccount"
+            lang="velocity"
+            resultMap="getBatchOutAccountMap">
+        SELECT
+        #{prefix}("<include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderOutAccountReadDao.Base_Column_List'/>
+        " "," "account." "out_account_"),
+        #{prefix}("<include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderOutaccountDetailReadDao.Base_Column_List'/>
+        " "," "acdetail." "out_account_detail_")
+      <!--  ,
+        #{prefix}("
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.write.mbg.MBGSaleContractOrderOutAccountLogReadDao.Base_Column_List'/>
+        " "," "accountlog." "out_account_log_")-->
+        FROM
+        iw_sale_contract_order_out_account account
+        LEFT JOIN iw_sale_contract_order_outaccount_detail acdetail ON account.id = acdetail.outAccountId
+        /*LEFT JOIN iw_sale_contract_order_out_account_log accountlog ON account.id = accountlog.outAccountId*/
+        #{where}()
+        account.id = @{_parameter.accountId}
+        AND account.valid = 1
+        #{end}
+    </select>
+</mapper>

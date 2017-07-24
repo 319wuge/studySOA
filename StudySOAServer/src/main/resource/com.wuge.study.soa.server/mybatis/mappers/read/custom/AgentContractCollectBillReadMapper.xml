@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manyi.iw.contract.soa.server.mybatis.dao.read.custom.AgentContractCollectBillReadDao" >
+	<select id="queryUncompletedBillCount" resultType="java.lang.Integer">
+	SELECT
+	count(b.id)
+	FROM
+	iw_agent_contract_collect_bill b
+	INNER JOIN iw_agent_contract t ON b.contractId = t.id
+	WHERE
+	<![CDATA[ t.state <> '90' ]]>
+	AND b.tenantId = #{userId}
+	AND b.state = 1
+	AND b.sourceType = 1
+	</select>
+	<select id="queryUncompletedBillCountContract" resultType="java.lang.Integer">
+		select count(b.id) from iw_agent_contract_collect_bill b
+		WHERE (b.tenantId=#{userId} or b.landlordId=#{userId})
+		and b.contractId=#{contractId}
+		and b.state=1
+	</select>
+
+	<select id="queryUncompletedBills"
+			resultMap="com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGAgentContractCollectBillReadDao.BaseResultMap"
+			resultType="com.manyi.iw.contract.soa.api.model.po.mbg.AgentContractCollectBill">
+		select *
+		FROM
+		iw_agent_contract_collect_bill
+		WHERE
+		(tenantId=#{userId} or landlordId=#{userId})
+		and state=1
+		and contractId=#{contractId}
+	</select>
+	<select id="queryRentBill"
+			resultType="com.manyi.iw.contract.soa.api.model.vo.rent.QueryRentBillResult$AgentContractCollectBillVo"
+			parameterType="com.manyi.iw.contract.soa.api.model.vo.rent.QueryRentBillParam">
+		SELECT
+		b.*
+		FROM
+		iw_agent_contract_collect_bill b
+		LEFT JOIN iw_agent_contract t ON b.contractId = t.id
+		WHERE
+		b.state = 2
+		<if test="param.cityId != null">
+			AND t.cityId = #{param.cityId}
+		</if>
+		<if test="param.successTimeGreaterThanOrEqualTo != null">
+			AND successTime >= #{param.successTimeGreaterThanOrEqualTo}
+		</if>
+		<if test="param.successTimeLessThanOrEqualTo != null">
+			AND successTime <![CDATA[<=]]> #{param.successTimeLessThanOrEqualTo}
+		</if>
+		<if test="param.orderByClause != null">
+			order by ${param.orderByClause}
+		</if>
+		<if test="param.limit!=null">
+			limit
+			<if test="param.start!=null">
+				#{param.start},
+			</if>
+			#{param.limit}
+		</if>
+	</select>
+	<select id="queryRentBillCount"
+			resultType="java.lang.Integer"
+			parameterType="com.manyi.iw.contract.soa.api.model.vo.rent.QueryRentBillParam">
+		SELECT
+		count(b.id)
+		FROM
+		iw_agent_contract_collect_bill b
+		LEFT JOIN iw_agent_contract t ON b.contractId = t.id
+		WHERE
+		b.state = 2
+		<if test="param.cityId != null">
+			AND t.cityId = #{param.cityId}
+		</if>
+		<if test="param.successTimeGreaterThanOrEqualTo != null">
+			AND successTime >= #{param.successTimeGreaterThanOrEqualTo}
+		</if>
+		<if test="param.successTimeLessThanOrEqualTo != null">
+			AND successTime <![CDATA[<=]]> #{param.successTimeLessThanOrEqualTo}
+		</if>
+	</select>
+</mapper>

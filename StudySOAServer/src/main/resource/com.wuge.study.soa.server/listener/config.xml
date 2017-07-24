@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+       default-autowire="byName">
+
+    <import resource="classpath:context/netfinworks-mq-jms-client.xml"/>
+    <import resource="classpath:context/netfinworks-mq-jms-listener.xml"/>
+
+    <bean id="landLordBindBankNotifyHandle"
+          class="com.manyi.iw.contract.soa.server.listener.LandLordBindBankListener">
+        <property name="failoverService" ref="commonFailoverService"/>
+        <property name="concurrentConsumers" value="${jms.MailNotifyQueue.consumer}"/>
+        <property name="destination" value="${contractsoa.landlordbindbankQueue.queueName}"/>
+    </bean>
+
+    <bean id="landLordBindBankHandlerContainer" class="com.netfinworks.mq.listener.DefaultMessageListenerContainer"
+          init-method="startContainer" destroy-method="stopContainer">
+        <property name="connectionFactory" ref="pooledConnectionFactory"/>
+        <property name="messageHandler" ref="landLordBindBankNotifyHandle"/>
+    </bean>
+</beans>

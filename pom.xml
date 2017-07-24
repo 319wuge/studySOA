@@ -102,12 +102,12 @@
       <dependency>
         <groupId>com.manyi.iw</groupId>
         <artifactId>IWOPSOAApi</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.3.1-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>com.manyi.iw</groupId>
         <artifactId>IWOPSOAClient</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.3.1-SNAPSHOT</version>
       </dependency>
       <!-- netfinworks mq -->
       <dependency>
@@ -593,12 +593,12 @@
     <repository>
       <id>releases</id>
       <name>Internal Releases</name>
-      <url>http://localhost:8081/nexus/content/repositories/releases</url>
+      <url>http://60.205.229.100:8081/nexus/content/repositories/releases</url>
     </repository>
     <snapshotRepository>
       <id>snapshots</id>
       <name>Internal Snapshots</name>
-      <url>http://localhost:8081/nexus/content/repositories/snapshots</url>
+      <url>http://60.205.229.100:8081/nexus/content/repositories/snapshots</url>
     </snapshotRepository>
   </distributionManagement>
 

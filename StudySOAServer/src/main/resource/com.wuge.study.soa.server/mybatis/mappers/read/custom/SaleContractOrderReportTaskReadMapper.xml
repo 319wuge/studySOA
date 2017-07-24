@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manyi.iw.contract.soa.server.mybatis.dao.read.custom.SaleContractOrderReportTaskReadDao">
+
+    <sql id="searchReportWhere">
+        <if test="param.reportType != null">
+            AND r.reportType = #{param.reportType}
+        </if>
+        <if test="param.reportState != null and param.reportState != ''">
+            AND r.state = #{param.reportState}
+        </if>
+        <if test="param.fwqId != null and param.fwqId != 0">
+            AND r.tradeMendianId = #{param.fwqId}
+        </if>
+        <if test="param.code != null and param.code != ''">
+            AND r.code = #{param.code}
+        </if>
+        <if test="param.cityId != null">
+            AND o.cityId = #{param.cityId}
+        </if>
+        <if test="param.loanList != null">
+            And
+            (
+            o.loan in
+            <foreach open="(" close=")" collection="param.loanList" item="loan" separator=",">
+                #{loan}
+            </foreach>
+            or
+            o.loan IS NULL
+            )
+        </if>
+        <if test="param.timeLastStart != null">
+            AND timeLast >= #{param.timeLastStart}
+        </if>
+        <if test="param.timeLastEnd != null">
+            AND timeLast <![CDATA[<=]]> #{param.timeLastEnd}
+        </if>
+        <if test="param.timeApplyStart != null">
+            AND timeApply >= #{param.timeApplyStart}
+        </if>
+        <if test="param.timeApplyEnd != null">
+            AND timeApply <![CDATA[<=]]> #{param.timeApplyEnd}
+        </if>
+        <if test="param.timePassStart != null">
+            AND timePass >= #{param.timePassStart}
+        </if>
+        <if test="param.timePassEnd != null">
+            AND timePass <![CDATA[<=]]> #{param.timePassEnd}
+        </if>
+        <if test="param.leaderTimePassStart != null">
+            AND timeLeaderPass >= #{param.leaderTimePassStart}
+        </if>
+        <if test="param.leaderTimePassEnd != null">
+            AND timeLeaderPass <![CDATA[<=]]> #{param.leaderTimePassEnd}
+        </if>
+        <if test="param.pingguConfirmTimeStart != null">
+            AND attr.firstConfirmPingguOutAccountTime >= #{param.pingguConfirmTimeStart}
+        </if>
+        <if test="param.pingguConfirmTimeEnd != null">
+            AND attr.firstConfirmPingguOutAccountTime <![CDATA[<=]]> #{param.pingguConfirmTimeEnd}
+        </if>
+        <if test="param.bankCostTimeStart != null">
+            AND rc.updateTime >= #{param.bankCostTimeStart} AND rc.type = 92 AND rc.state = 2
+        </if>
+        <if test="param.bankCostTimeEnd != null">
+            AND rc.updateTime <![CDATA[<=]]> #{param.bankCostTimeEnd} AND rc.type = 92 AND rc.state = 2
+        </if>
+        <if test="param.gdyId != null and param.fwqJobId != 0">
+            <if test="param.loaner">
+                AND oal.type = 2 AND oal.valid = 1 AND r.reportType = 2
+                <if test="param.gdyId != null and param.gdyId != 0">
+                    AND oal.agentId = #{param.gdyId}
+                </if>
+            </if>
+            <if test="param.netSigner">
+                AND oal.type = 3 AND oal.valid = 1 AND r.reportType = 1
+                <if test="param.gdyId != null and param.gdyId != 0">
+                    AND oal.agentId = #{param.gdyId}
+                </if>
+            </if>
+            <if test="param.trader">
+                AND oal.type = 1 AND oal.valid = 1 AND r.reportType = 3
+                <if test="param.gdyId != null and param.gdyId != 0">
+                    AND oal.agentId = #{param.gdyId}
+                </if>
+            </if>
+        </if>
+        AND r.valid = 1
+    </sql>
+
+    <sql id="searchAloJoin">
+        LEFT  JOIN  iw_sale_contract_order_allocation_persion oal ON r.orderId = oal.orderId
+    </sql>
+
+    <select id="countNumReport" resultType="java.lang.Integer" parameterType="com.manyi.iw.contract.soa.api.model.vo.sale.SearchReportListParam">
+        SELECT count(1) FROM iw_sale_contract_order_report_task r
+        LEFT  JOIN  iw_sale_contract_order o ON  r.orderId = o.id
+        LEFT JOIN iw_sale_contract_order_attribute attr ON  r.orderId = attr.orderId
+        <if test="param.bankCostTimeStart != null or param.bankCostTimeEnd != null">
+            <include refid="receiptJoin" />
+        </if>
+        <if test="param.gdyId != null and param.fwqJobId != 0">
+            <include refid="searchAloJoin" />
+        </if>
+        WHERE  1 = 1
+        <include refid="searchReportWhere" />
+    </select>
+
+    <sql id="receiptJoin">
+        LEFT JOIN iw_sale_contract_order_receipt rc ON rc.orderId = o.id
+    </sql>
+
+    <select id="searchReports" resultType="com.manyi.iw.contract.soa.api.model.po.mbg.SaleContractOrderReportTask" parameterType="com.manyi.iw.contract.soa.api.model.vo.sale.SearchReportListParam">
+        SELECT DISTINCT r.reportType,o.code, r.* FROM iw_sale_contract_order_report_task r
+        LEFT  JOIN  iw_sale_contract_order o ON  r.orderId = o.id
+        LEFT JOIN iw_sale_contract_order_attribute attr ON  r.orderId = attr.orderId
+        <if test="param.bankCostTimeStart != null or param.bankCostTimeEnd != null">
+            <include refid="receiptJoin" />
+        </if>
+        <if test="param.gdyId != null and param.fwqJobId != 0">
+            <include refid="searchAloJoin" />
+        </if>
+        WHERE  1 = 1
+        <include refid="searchReportWhere" />
+        <if test="param.orderBy">
+            order by ${param.orderBy}
+        </if>
+        <if test="param.limit">
+            limit
+            <if test="param.start">
+                #{param.start},
+            </if>
+            #{param.limit}
+        </if>
+    </select>
+</mapper>

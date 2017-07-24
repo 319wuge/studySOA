@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manyi.iw.contract.soa.server.mybatis.dao.read.custom.SignAgreementOutaccountReadDao">
+
+
+
+    <resultMap id="OutAcccountAuditMap" type="com.manyi.iw.contract.soa.api.model.vo.sign.AgreementAudit">
+        <id column="id" property="signId"></id>
+        <result column="agentId" property="agentId"></result>
+        <result column="mendianId" property="shopId"></result>
+        <result column="signCode" property="signCode"></result>
+        <result column="totalMoney" property="totalMoney"></result>
+        <result column="timeApply" property="timeApply"></result>
+        <result column="state" property="state"></result>
+        <result column="type" property="type"></result>
+    </resultMap>
+
+    <select id="getOutAccountAudit" parameterType="com.manyi.iw.contract.soa.api.model.vo.sign.GetAgreementAuditParam" resultMap="OutAcccountAuditMap">
+        select ag.id, ag.agentId, ag.mendianId, ag.signCode,ag.totalMoney, ac.timeApply, ac.state, ac.type
+        from iw_sign_agreement as ag
+        inner join iw_sign_agreement_outaccount as ac
+        on ac.signId = ag.id
+        where 1= 1
+        <choose>
+            <when test="agentId != null and agentId != 0">
+                and ag.agentId = #{agentId}
+            </when>
+            <when test="groupId != null and groupId != 0">
+                and ag.groupId = #{groupId}
+            </when>
+            <when test="mendianId != null and mendianId !=0">
+                and ag.mendianId = #{mendianId}
+            </when>
+            <when test="areaId != null and areaId != 0">
+                and ag.areaId = #{areaId}
+            </when>
+            <when test="bigAreaId != null and bigAreaId != 0">
+                and ag.bigAreaId = #{bigAreaId}
+            </when>
+            <when test="cityId != null and cityId != 0">
+                and ag.cityId = #{cityId}
+            </when>
+            <when test="signMendianId != null and signMendianId !=0">
+                and ag.signMendianId = #{signMendianId}
+            </when>
+        </choose>
+        <if test="signCode != null and signCode != ''">
+            and ag.signCode = #{signCode}
+        </if>
+        <if test="applyDate != null and applyDate != ''">
+            and date(timeApply) = #{applyDateStr}
+        </if>
+        <if test="auditState == null">
+            and ac.state in (1,2)
+        </if>
+        <if test="auditState != null">
+            <if test="auditState == 1">
+                and ac.state = 1
+            </if>
+            <if test="auditState == 2">
+                and ac.state in (0,2,3)
+            </if>
+        </if>
+        order by ac.timeApply desc
+        <if test="limit">
+            limit
+            <if test="start">
+                #{start},
+            </if>
+            #{limit}
+        </if>
+    </select>
+
+
+    <select id="getOutAccountAuditCount" resultType="Integer">
+        select count(*)
+        from iw_sign_agreement as ag
+        inner join iw_sign_agreement_outaccount as ac
+        on ac.signId = ag.id
+        where 1= 1
+        <choose>
+            <when test="agentId != null and agentId != 0">
+                and ag.agentId = #{agentId}
+            </when>
+            <when test="groupId != null and groupId != 0">
+                and ag.groupId = #{groupId}
+            </when>
+            <when test="mendianId != null and mendianId !=0">
+                and ag.mendianId = #{mendianId}
+            </when>
+            <when test="areaId != null and areaId != 0">
+                and ag.areaId = #{areaId}
+            </when>
+            <when test="bigAreaId != null and bigAreaId != 0">
+                and ag.bigAreaId = #{bigAreaId}
+            </when>
+            <when test="cityId != null and cityId != 0">
+                and ag.cityId = #{cityId}
+            </when>
+            <when test="signMendianId != null and signMendianId !=0">
+                and ag.signMendianId = #{signMendianId}
+            </when>
+        </choose>
+        <if test="signCode != null and signCode != ''">
+            and ag.signCode = #{signCode}
+        </if>
+        <if test="applyDate != null and applyDate != ''">
+            and date(timeApply) = #{applyDateStr}
+        </if>
+        <if test="auditState == null">
+            and ac.state in (1,2)
+        </if>
+        <if test="auditState != null">
+            <if test="auditState == 1">
+                and ac.state = 1
+            </if>
+            <if test="auditState == 2">
+                and ac.state in (0,2,3)
+            </if>
+        </if>
+    </select>
+</mapper>

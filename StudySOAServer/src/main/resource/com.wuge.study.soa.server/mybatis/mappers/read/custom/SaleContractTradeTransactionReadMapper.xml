@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manyi.iw.contract.soa.server.mybatis.dao.read.custom.SaleContractTradeTransactionReadDao">
+    <resultMap extends="com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractTradeTransactionReadDao.BaseResultMap"
+               id="SaleContractTradeVoResultMap"
+               type="com.manyi.iw.contract.soa.api.model.vo.sale.trade.SearchTradeResult$TradeDetail$SaleContractTradeVo"/>
+
+
+    <resultMap id="TradeDetailResultMap"
+               type="com.manyi.iw.contract.soa.api.model.vo.sale.trade.SearchTradeResult$TradeDetail" autoMapping="true">
+        <id column="trade_id"/>
+        <association columnPrefix="trade_"
+                     property="tradeVo"
+                     resultMap="SaleContractTradeVoResultMap" />
+        <association columnPrefix="order_"
+                     property="order"
+                     resultMap="com.manyi.iw.contract.soa.server.mybatis.dao.read.custom.SaleContractOrderReadDao.SaleContractOrderVoResultMap"/>
+        <association columnPrefix="loanAndTrade_"
+                     property="loanAndTrade"
+                     resultMap="com.manyi.iw.contract.soa.server.mybatis.dao.read.custom.SaleContractOrderReadDao.SaleContractLoanTradeVoResultMap"/>
+    </resultMap>
+
+    <select id="queryTradeList" resultMap="TradeDetailResultMap" lang="velocity">
+        SELECT
+        #{if}(${_parameter.needOrder})
+        #{prefix}("
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderReadDao.Base_Column_List'/>
+        " "," "o." "order_")
+        ,
+        #{end}
+        #{if}(${_parameter.needLoanAndTrade})
+        #{prefix}("
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractLoanAndTradeReadDao.Base_Column_List'/>
+        " "," "lt." "loanAndTrade_")
+        ,
+        #{end}
+        #{prefix}("
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractTradeTransactionReadDao.Base_Column_List'/>
+        " "," "t." "trade_")
+        from iw_sale_contract_trade_transaction t
+        #{if}(${_parameter.needOrder})
+            <include refid="searchJoin" />
+        #{end}
+        #{if}(${_parameter.needLoanAndTrade})
+            <include refid="searchJoinLoanAndTrade" />
+        #{end}
+        <include refid="searchWhere" />
+        <include refid="orderBy"/>
+        <include refid="limit"/>
+    </select>
+
+    <select id="queryTradeListWithoutState" resultMap="TradeDetailResultMap" lang="velocity">
+        SELECT
+        #{if}(${_parameter.needOrder})
+        #{prefix}("
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderReadDao.Base_Column_List'/>
+        " "," "o." "order_")
+        ,
+        #{end}
+        #{prefix}("
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractTradeTransactionReadDao.Base_Column_List'/>
+        " "," "t." "trade_")
+        from iw_sale_contract_trade_transaction t
+        <include refid="searchJoin" />
+        <include refid="searchWhereWithoutState" />
+    </select>
+
+    <select id="queryTradeTaskList" resultMap="TradeDetailResultMap" lang="velocity">
+        SELECT
+        #{if}(${_parameter.needOrder})
+        #{prefix}("
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderReadDao.Base_Column_List'/>
+        " "," "o." "order_")
+        ,
+        #{end}
+        #{if}(${_parameter.needLoanAndTrade})
+        #{prefix}("
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractLoanAndTradeReadDao.Base_Column_List'/>
+        " "," "lt." "loanAndTrade_")
+        ,
+        #{end}
+        #{prefix}("
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractTradeTransactionReadDao.Base_Column_List'/>
+        " "," "t." "trade_")
+        from iw_sale_contract_trade_transaction t
+        <include refid="searchJoin" />
+        #{if}(${_parameter.needOrder})
+        <include refid="searchJoin" />
+        #{end}
+        #{if}(${_parameter.needLoanAndTrade})
+        <include refid="searchJoinLoanAndTrade" />
+        #{end}
+        <include refid="searchTaskWhere" />
+        <include refid="orderBy"/>
+        <include refid="limit"/>
+    </select>
+
+    <sql id="searchJoin">
+        left join iw_sale_contract_order o on o.id = t.orderId
+    </sql>
+
+    <sql id="searchJoinLoanAndTrade">
+        left join iw_sale_contract_loan_and_trade lt on o.id = lt.orderId
+    </sql>
+
+    <sql id="searchWhere">
+        WHERE
+        t.state != 4
+        #{if}(${_parameter.tradeIds} and ${_parameter.tradeIds.size()} != 0)
+        AND
+        #{in}(${_parameter.tradeIds} $tradeId "t.id")
+        @{tradeId}
+        #{end}
+        #{end}
+        #{if}(${_parameter.cityId} and ${_parameter.cityId} != 0)
+          AND t.cityId = @{_parameter.cityId}
+        #{end}
+        #{if}(${_parameter.state})
+        AND t.state = @{_parameter.state}
+        #{end}
+        #{if}(${_parameter.tradeWayStateList} and ${_parameter.tradeWayStateList.size()} != 0)
+        AND
+        #{in}(${_parameter.tradeWayStateList} $tradeWayState "t.tradeWay")
+        @{tradeWayState}
+        #{end}
+        #{end}
+        #{if}(${_parameter.tradeType})
+        AND t.isBatch = @{_parameter.tradeType}
+        #{end}
+        #{if}(${_parameter.loginAgentId})
+        AND t.tradeCreateAgentId = @{_parameter.loginAgentId}
+        #{end}
+        #{if}(${_parameter.collectionDateStart})
+        AND t.tradeCreateTime <![CDATA[>=]]> @{_parameter.collectionDateStart}
+        #{end}
+        #{if}(${_parameter.collectionDateEnd})
+        AND t.tradeCreateTime <![CDATA[<=]]> @{_parameter.collectionDateEnd}
+        #{end}
+        #{if}(${_parameter.bizSubmitConfirmTimeStart})
+        AND t.tradeReceiveMoneyTime <![CDATA[>=]]> @{_parameter.bizSubmitConfirmTimeStart}
+        #{end}
+        #{if}(${_parameter.bizSubmitConfirmTimeEnd})
+        AND t.tradeReceiveMoneyTime <![CDATA[<=]]> @{_parameter.bizSubmitConfirmTimeEnd}
+        #{end}
+        #{if}(${_parameter.bizSubmitConfirmSystemTimeStart})
+        AND t.tradeReceiveSystemMoneyTime <![CDATA[>=]]> @{_parameter.bizSubmitConfirmSystemTimeStart}
+        #{end}
+        #{if}(${_parameter.bizSubmitConfirmSystemTimeEnd})
+        AND t.tradeReceiveSystemMoneyTime <![CDATA[<=]]> @{_parameter.bizSubmitConfirmSystemTimeEnd}
+        #{end}
+        #{if}(${_parameter.financeFormalMoneyTimeStart})
+        AND t.tradeCompleteTime <![CDATA[>=]]> @{_parameter.financeFormalMoneyTimeStart}
+        #{end}
+        #{if}(${_parameter.financeFormalMoneyTimeEnd})
+        AND t.tradeCompleteTime <![CDATA[<=]]> @{_parameter.financeFormalMoneyTimeEnd}
+        #{end}
+        #{if}(${_parameter.collectionDetails} and ${_parameter.collectionDetails}!="")
+        AND t.collectionDetails like CONCAT("%", @{_parameter.collectionDetails}, "%")
+        #{end}
+    </sql>
+
+    <sql id="searchWhereWithoutState">
+        WHERE
+        1=1
+        #{if}(${_parameter.tradeIds} and ${_parameter.tradeIds.size()} != 0)
+        AND
+        #{in}(${_parameter.tradeIds} $tradeId "t.id")
+        @{tradeId}
+        #{end}
+        #{end}
+    </sql>
+
+    <sql id="searchTaskWhere">
+        WHERE
+        t.state != 4
+        #{if}(${_parameter.orderStateList} and ${_parameter.orderStateList.size()} != 0)
+        AND
+        #{in}(${_parameter.orderStateList} $state "o.state")
+        @{state}
+        #{end}
+        #{end}
+        #{if}(${_parameter.tradeIds} and ${_parameter.tradeIds.size()} != 0)
+        AND
+        #{in}(${_parameter.tradeIds} $tradeId "t.id")
+        @{tradeId}
+        #{end}
+        #{end}
+        #{if}(${_parameter.orderIds} and ${_parameter.orderIds.size()} != 0)
+        AND
+        #{in}(${_parameter.orderIds} $orderId "o.id")
+        @{orderId}
+        #{end}
+        #{end}
+        #{if}(${_parameter.fwqId} and ${_parameter.fwqId} != 0)
+        AND o.loanMendian = @{_parameter.fwqId}
+        #{elseif}(${_parameter.tradeCityId} and ${_parameter.tradeCityId} != 0)
+        AND o.cityId = @{_parameter.tradeCityId}
+        #{end}
+        #{if}(${_parameter.code} and ${_parameter.code}!="")
+        AND o.code = @{_parameter.code}
+        #{end}
+        #{if}(${_parameter.exceptionState})
+        AND o.specialState = @{_parameter.exceptionState}
+        #{end}
+        #{if}(${_parameter.state})
+        AND t.state = @{_parameter.state}
+        #{end}
+        #{if}(${_parameter.tradeWay})
+        AND t.tradeWay = @{_parameter.tradeWay}
+        #{end}
+        #{if}(${_parameter.collectionDateStart})
+        AND t.tradeCreateTime <![CDATA[>=]]> @{_parameter.collectionDateStart}
+        #{end}
+        #{if}(${_parameter.collectionDateEnd})
+        AND t.tradeCreateTime <![CDATA[<=]]> @{_parameter.collectionDateEnd}
+        #{end}
+        #{if}(${_parameter.bizSubmitConfirmTimeStart})
+        AND t.tradeReceiveMoneyTime <![CDATA[>=]]> @{_parameter.bizSubmitConfirmTimeStart}
+        #{end}
+        #{if}(${_parameter.bizSubmitConfirmTimeEnd})
+        AND t.tradeReceiveMoneyTime <![CDATA[<=]]> @{_parameter.bizSubmitConfirmTimeEnd}
+        #{end}
+        #{if}(${_parameter.bizSubmitConfirmSystemTimeStart})
+        AND t.tradeReceiveSystemMoneyTime <![CDATA[>=]]> @{_parameter.bizSubmitConfirmSystemTimeStart}
+        #{end}
+        #{if}(${_parameter.bizSubmitConfirmSystemTimeEnd})
+        AND t.tradeReceiveSystemMoneyTime <![CDATA[<=]]> @{_parameter.bizSubmitConfirmSystemTimeEnd}
+        #{end}
+        #{if}(${_parameter.financeFormalMoneyTimeStart})
+        AND t.tradeCompleteTime <![CDATA[>=]]> @{_parameter.financeFormalMoneyTimeStart}
+        #{end}
+        #{if}(${_parameter.financeFormalMoneyTimeEnd})
+        AND t.tradeCompleteTime <![CDATA[<=]]> @{_parameter.financeFormalMoneyTimeEnd}
+        #{end}
+        #{if}(${_parameter.collectionDetails} and ${_parameter.collectionDetails}!="")
+        AND t.collectionDetails like CONCAT("%", @{_parameter.collectionDetails}, "%")
+        #{end}
+    </sql>
+    <sql id="orderBy">
+        #{if}(${_parameter.orderBy} and ${_parameter.orderBy} != "")
+        order by ${_parameter.orderBy}
+        #{end}
+    </sql>
+    <sql id="limit">
+        #{if}(${_parameter.limit})
+        LIMIT
+        #{if}(${_parameter.start})
+        @{_parameter.start},
+        #{end}
+        @{_parameter.limit}
+        #{end}
+    </sql>
+
+    <select id="countTradeList" resultType="int" lang="velocity">
+        select count(1)
+        from iw_sale_contract_trade_transaction t
+        <include refid="searchJoin" />
+        <include refid="searchWhere" />
+    </select>
+
+    <select id="countTradeTaskList" resultType="int" lang="velocity">
+        select count(1)
+        from iw_sale_contract_trade_transaction t
+        <include refid="searchJoin" />
+        <include refid="searchTaskWhere" />
+    </select>
+
+    <select id="countWaitPayTrades" parameterType="map" resultType="int">
+        select count(t.id)
+        from iw_sale_contract_trade_transaction t
+        left join iw_sale_contract_order o on t.orderId = o.id
+        where
+        t.payer = #{userId}
+        <if test="cityIds != null">
+            and
+            o.cityId in
+            <foreach collection="cityIds" open="(" close=")" item="cityId" separator=",">
+                ${cityId}
+            </foreach>
+        </if>
+        and t.state = 1
+        and t.billType is not null
+    </select>
+
+    <select id="countUnCompleteOrder" parameterType="map" resultType="int">
+        select count(DISTINCT o.id)
+        from iw_sale_contract_order o
+        inner join iw_sale_contract_trade_transaction t on o.id = t.orderId
+        where t.payer = #{userId}
+        <if test="cityIds != null">
+        and
+        o.cityId in
+        <foreach collection="cityIds" open="(" close=")" item="cityId" separator=",">
+            ${cityId}
+        </foreach>
+        </if>
+        and o.state != 90
+        and t.billType is not null
+    </select>
+
+    <select id="getWaitPayTrades" parameterType="map" resultType="com.manyi.iw.contract.soa.api.model.vo.sale.saleuser.OrderVo">
+        select t.orderId as id,count(t.id) as waitPayCount
+        from iw_sale_contract_trade_transaction t
+        left join iw_sale_contract_order o on t.orderId = o.id
+        where
+        t.payer = #{userId}
+        <if test="cityIds != null">
+            and
+            o.cityId in
+            <foreach collection="cityIds" open="(" close=")" item="cityId" separator=",">
+                ${cityId}
+            </foreach>
+        </if>
+        and t.state=1
+        and t.billType is not null group by t.orderId
+    </select>
+
+    <select id="getUserPayOrdersOnCreate" parameterType="map" resultType="com.manyi.iw.contract.soa.api.model.vo.sale.saleuser.OrderVo">
+        select
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderReadDao.Base_Column_List'/>
+        from iw_sale_contract_order o
+        left join
+        (select orderId,payer from iw_sale_contract_trade_transaction where payer=#{userId} and billType is not null group by orderId) t on t.orderId = o.id
+        where t.payer= #{userId}
+        <if test="cityIds != null">
+            and
+            o.cityId in
+            <foreach collection="cityIds" open="(" close=")" item="cityId" separator=",">
+                ${cityId}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="getUserPayOrders"
+            parameterType="map"
+            resultType="com.manyi.iw.contract.soa.api.model.vo.sale.saleuser.OrderVo"
+            lang="velocity">
+        select
+        DISTINCT o.id,
+        #{prefix}("
+        <include refid='com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderReadDao.Base_Column_List'/>
+        " "," "o." "")
+        from iw_sale_contract_order o
+        inner join iw_sale_contract_landlord_id l on o.id = l.orderId
+        where
+        l.isLoanMainSir = 1
+        and
+        (o.userId= @{userId} or l.landLordId = @{userId})
+        #{if}($_parameter.cityIds)
+          and
+            #{in}(${_parameter.cityIds} $cityId "o.cityId")
+            @{cityId}
+            #{end}
+        #{end}
+    </select>
+
+    <select id="getMyTrades" resultType="com.manyi.iw.contract.soa.api.model.vo.sale.sale.GetMyWaitPayTradesResult$TradeVo">
+        SELECT
+        <include refid="com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractTradeTransactionReadDao.Base_Column_List"/>
+        from iw_sale_contract_trade_transaction
+        where
+        billType is not null
+        and state != 4
+        and ((state = 3 and tradeWay=7 and tradeCompleteTime >= #{tradeCompleteTime}) or (state = 1))
+        and tradeCreateAgentId = #{agentId} and completeType != 2
+        order by tradeCreateTime desc
+    </select>
+
+    <select id="getReceiptByTradeIds" parameterType="java.util.List" resultType="com.manyi.iw.contract.soa.api.model.vo.sale.sale.GetMyWaitPayTradesResult$ReceiptVo">
+        SELECT
+        <include refid="com.manyi.iw.contract.soa.server.mybatis.dao.read.mbg.MBGSaleContractOrderReceiptReadDao.Base_Column_List"/>
+        from iw_sale_contract_order_receipt
+        where
+        valid=1
+        <if test="tradeIds != null">
+            and tradeId in
+            <foreach close=")" collection="tradeIds" item="tradeId" open="(" separator=",">
+                #{tradeId}
+            </foreach>
+        </if>
+        order by createTime asc
+    </select>
+
+    <!-- 获取某一款项最后一次收款时间-->
+    <select id="getLastTradeByType" resultType="com.manyi.iw.contract.soa.api.model.po.mbg.SaleContractTradeTransaction">
+        SELECT t.*
+        FROM iw_sale_contract_trade_transaction t
+        LEFT JOIN iw_sale_contract_order_receipt r on t.id = r.tradeId
+        WHERE r.type = #{param.type} AND r.state = 2
+        AND t.id = #{param.tradeId}
+        ORDER BY t.tradeReceiveMoneyTime DESC limit 1
+    </select>
+
+    <select id="calculateOrderReceiveMoneyCommissionCharge"
+            resultType="java.lang.Long">
+        SELECT
+        ifnull(sum(if(t.commissionCharge is null, 0, t.commissionCharge)),0) as totalReceiveMoneyCommissionCharge
+        from iw_sale_contract_trade_transaction t
+        where
+        t.orderId = #{orderId}
+        and t.state = 3 and t.completeType = 1 and t.isBatch = 1
+        <if test="cardTypes and cardTypes.size() > 0">
+            and t.paymentBankCardType in
+            <foreach close=")" collection="cardTypes" item="cardType" open="(" separator=",">
+                #{cardType}
+            </foreach>
+        </if>
+    </select>
+
+
+    <select id="calculateOrderOutAccountMoneyCommissionCharge"
+            resultType="java.lang.Long">
+        SELECT
+        ifnull(sum(if(o.backCommissionCharge is null, 0, o.backCommissionCharge)),0) as totalBackCommissionCharge
+        from iw_sale_contract_order_out_account o
+        where
+        o.orderId = #{orderId}
+        and o.state = 40 and o.outAccountChannel = 2 and o.isBatch = 1 and o.outAccountWay = 1
+        <if test="cardTypes and cardTypes.size() > 0">
+            and o.outAccountBankCardType in
+            <foreach close=")" collection="cardTypes" item="cardType" open="(" separator=",">
+                #{cardType}
+            </foreach>
+        </if>
+    </select>
+</mapper>
