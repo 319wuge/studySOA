@@ -157,6 +157,11 @@
         <artifactId>IWTradeSOAApi</artifactId>
         <version>0.0.7-SNAPSHOT</version>
       </dependency>
+      <!--<dependency>-->
+        <!--<groupId>com.manyi.iw</groupId>-->
+        <!--<artifactId>mqClient</artifactId>-->
+        <!--<version>0.0.5-RELEASE</version>-->
+      <!--</dependency>-->
       <dependency>
         <groupId>com.manyi.iw</groupId>
         <artifactId>mqClient</artifactId>
