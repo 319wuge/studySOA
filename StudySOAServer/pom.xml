@@ -13,6 +13,14 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.manyi.iw</groupId>
+            <artifactId>IWAgentSOAClient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.manyi.iw</groupId>
+            <artifactId>IWAgentSOAApi</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.manyi</groupId>
             <artifactId>HouseCenterClient</artifactId>
         </dependency>

@@ -157,16 +157,12 @@
         <artifactId>IWTradeSOAApi</artifactId>
         <version>0.0.7-SNAPSHOT</version>
       </dependency>
-      <!--<dependency>-->
-        <!--<groupId>com.manyi.iw</groupId>-->
-        <!--<artifactId>mqClient</artifactId>-->
-        <!--<version>0.0.5-RELEASE</version>-->
-      <!--</dependency>-->
       <dependency>
         <groupId>com.manyi.iw</groupId>
         <artifactId>mqClient</artifactId>
         <version>0.0.5-RELEASE</version>
       </dependency>
+
       <dependency>
         <groupId>com.manyi.iw</groupId>
         <artifactId>IWUumSOAClient</artifactId>
@@ -544,10 +540,52 @@
         <version>${springframework.version}</version>
         <scope>test</scope>
       </dependency>
+
+      <dependency>
+        <groupId>com.manyi.iw</groupId>
+        <artifactId>IWAgentSOAClient</artifactId>
+        <version>1.3.4-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>com.manyi.iw</groupId>
+        <artifactId>IWAgentSOAApi</artifactId>
+        <version>1.3.4-SNAPSHOT</version>
+      </dependency>
+
     </dependencies>
   </dependencyManagement>
 
   <build>
+    <finalName>StudySOA</finalName>
+    <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
+    <resources>
+      <resource>
+        <directory>${basedir}/src/main/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>*.xml</include>
+          <include>*.properties</include>
+          <include>com/**/*</include>
+        </includes>
+
+        <excludes>
+          <exclude>config.properties</exclude>
+          <exclude>jdbc.properties</exclude>
+          <exclude>log4j.properties</exclude>
+          <exclude>memcache.properties</exclude>
+          <exclude>jetty-context.xml</exclude>
+        </excludes>
+      </resource>
+      <resource>
+        <directory>${basedir}/src/main/resources/config/${env}</directory>
+        <includes>
+          <include>config.properties</include>
+          <include>jdbc.properties</include>
+          <include>log4j.properties</include>
+          <include>memcache.properties</include>
+        </includes>
+      </resource>
+    </resources>
     <pluginManagement>
       <plugins>
         <plugin>
