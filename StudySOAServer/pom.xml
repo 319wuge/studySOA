@@ -293,7 +293,7 @@
         <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
         <resources>
             <resource>
-                <directory>${basedir}/src/main/resources</directory>
+                <directory>${basedir}/src/main/resource</directory>
                 <filtering>true</filtering>
                 <includes>
                     <include>*.xml</include>
@@ -306,11 +306,11 @@
                     <exclude>jdbc.properties</exclude>
                     <exclude>log4j.properties</exclude>
                     <exclude>memcache.properties</exclude>
-                    <exclude>jetty-context.xml</exclude>
+                    <!--<exclude>jetty-context.xml</exclude>-->
                 </excludes>
             </resource>
             <resource>
-                <directory>${basedir}/src/main/resources/config/${env}</directory>
+                <directory>${basedir}/src/main/resource/config/${env}</directory>
                 <includes>
                     <include>config.properties</include>
                     <include>jdbc.properties</include>
@@ -373,7 +373,7 @@
                     <stopKey>sale-soa-stop</stopKey>
                     <stopPort>9999</stopPort>
                     <webApp>
-                        <contextPath>/IWContractSOA</contextPath>
+                        <contextPath>/StudySOA</contextPath>
                     </webApp>
                     <contextXml>${project.basedir}/src/main/resources/jetty-context.xml</contextXml>
                 </configuration>

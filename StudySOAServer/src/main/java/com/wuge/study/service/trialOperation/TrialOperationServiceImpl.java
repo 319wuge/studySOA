@@ -13,7 +13,7 @@ import java.util.List;
  * Created by qls on 2015/9/16.
  */
 public class TrialOperationServiceImpl implements TrialOperationService{
-	private HashSet<Long> mdIdSet = new HashSet<>();
+	private HashSet<Long> mdIdSet = new HashSet<Long>();
 	private String trialStore;
 	@Autowired
 	private UumPriClient uumPriClient;

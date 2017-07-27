@@ -2,6 +2,9 @@ package com.wuge.study.mqueue;
 
 import com.manyi.mqservice.client.AbstractHandler;
 import com.manyi.mqservice.model.MqMessage;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.net.SocketAddress;
 
@@ -9,9 +12,9 @@ import java.net.SocketAddress;
  * Created by Administrator on 2016/4/5.
  */
 public class OrderTradeMQHandler extends AbstractHandler {
-//    @Value("${mqueue.handler.hostname}")
+//       @Value("${mqueue.handler.hostname}")
 //    private String mqueueHandlerHostname;
-
+//
 //    @Autowired
 //    private TradeService tradeService;
 //    @Autowired
@@ -23,14 +26,12 @@ public class OrderTradeMQHandler extends AbstractHandler {
 //
 //    @Autowired
 //    private TradeSOAProxyNew tradeSOAProxyNew;
-
-    //private Logger logger = Logger.getLogger(getClass());
+//
+//    private Logger logger = Logger.getLogger(getClass());
 
     @Override
     public void processMessage(MqMessage mqMessage, SocketAddress socketAddress) {
         // 判断处理的服务器
-        System.out.print("ssss");
-        //todo  wuge
 //        if(StringUtils.isNotBlank(IpUtils.getHostName())
 //                && StringUtils.isNotBlank(mqueueHandlerHostname)
 //                && IpUtils.getHostName().trim().equals(mqueueHandlerHostname.trim())) {

@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public Response<Void> handle(Exception ex) {
 
-        Response<Void> result = new Response<>();
+        Response<Void> result = new Response<Void>();
         if(ex instanceof BusinessException) {
             String errorCode = ((BusinessException) ex).getErrorCode();
             result.setErrorCode(Integer.parseInt(errorCode));

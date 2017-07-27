@@ -9,7 +9,7 @@ import java.util.LinkedHashMap;
  * 解析配置文件并保存到内存中，以便查询
  * <P>配置文件格式遵循常见properties文件，请查看本package下的sample.properties文件
  *
- * @author wuge
+ * @author whz
  */
 public class PropertiesFileParser {
     public static final Logger log = Logger.getLogger(PropertiesFileParser.class);
@@ -35,6 +35,7 @@ public class PropertiesFileParser {
      * 初始化参数
      *
      * @param fileName    classpath下路径的配置文件名
+     * @param charsetName 文件编码格式
      */
     public PropertiesFileParser(String fileName) {
         this(fileName, CHARSET_UTF8);

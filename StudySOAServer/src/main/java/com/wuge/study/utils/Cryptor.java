@@ -26,7 +26,7 @@ public class Cryptor {
 			Cipher cipher = Cipher.getInstance("Blowfish");
 			cipher.init(Cipher.DECRYPT_MODE, secretKey);
 			return new String(cipher.doFinal(BaseEncoding.base64Url().decode(cipherText)), StandardCharsets.UTF_8);
-		} catch(NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
+		} catch(Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -37,7 +37,7 @@ public class Cryptor {
 			Cipher cipher = Cipher.getInstance("Blowfish");
 			cipher.init(Cipher.ENCRYPT_MODE, secretKey);
 			return BaseEncoding.base64Url().omitPadding().encode(cipher.doFinal(clearText.getBytes(StandardCharsets.UTF_8)));
-		} catch(NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
+		} catch(Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
