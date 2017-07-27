@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manyi.iw.contract.soa.server.mybatis.dao.read.custom.SignAgreementReadDao">
+    <resultMap id="signAgreementResultMap" type="com.manyi.iw.contract.soa.api.model.vo.sign.SignAgreementVo">
+      <id column="id" property="signId"></id>
+      <result column="signCode" property="signCode"></result>
+      <result column="orderId" property="orderId"></result>
+        <result column="cityId" property="cityId"></result>
+      <result column="orderCode" property="orderCode"></result>
+      <result column="state" property="state"></result>
+      <result column="totalMoney" property="totalMoney"></result>
+      <result column="paymentTotalMoney" property="payedTotalMoney"></result>
+        <result column="toConstructionCommitteeTotalMoney" property="constructMoney"></result>
+      <result column="subAccountBalance" property="accountBalance"></result>
+      <result column="createTime" property="createTime"></result>
+    </resultMap>
+
+    <select id="selectShopByCondition"
+            parameterType="com.manyi.iw.contract.soa.api.model.vo.sign.GetShopAgreementListParam"
+            resultMap="signAgreementResultMap">
+      select sg.id,
+        sg.cityId,
+        sg.signMendianId,
+        sg.signCode,
+        sg.orderId,
+        sg.orderCode,
+        sg.state,
+        sg.totalMoney,
+        sg.createTime,
+        bill.paymentTotalMoney,
+        bill.toConstructionCommitteeTotalMoney,
+        bill.subAccountBalance
+      from iw_sign_agreement as sg
+      left join iw_sign_agreement_bill as bill
+      on sg.id = bill.signId
+      where 1 = 1
+        <choose>
+            <when test="agentId != null and agentId != 0">
+                and sg.agentId = #{agentId}
+            </when>
+            <when test="groupId != null and groupId != 0">
+                and sg.groupId = #{groupId}
+            </when>
+            <when test="mendianId != null and mendianId !=0">
+                and sg.mendianId = #{mendianId}
+            </when>
+            <when test="areaId != null and areaId != 0">
+                and sg.areaId = #{areaId}
+            </when>
+            <when test="bigAreaId != null and bigAreaId != 0">
+                and sg.bigAreaId = #{bigAreaId}
+            </when>
+            <when test="cityId != null and cityId != 0">
+                and sg.cityId = #{cityId}
+            </when>
+            <when test="signMendianId != null and signMendianId !=0">
+                and sg.signMendianId = #{signMendianId}
+            </when>
+        </choose>
+        <if test="signCode != null and signCode != ''">
+            AND sg.signCode = #{signCode}
+        </if>
+        <if test="createTimeStart != null">
+            AND date(sg.createTime) &gt;= #{createTimeStart}
+        </if>
+        <if test="createTimeEnd != null">
+            AND date(sg.createTime) &lt;= #{createTimeEnd}
+        </if>
+        <if test="state != null">
+            AND state = #{state}
+        </if>
+      order by sg.createTime desc
+        <if test="limit">
+          limit
+          <if test="start">
+            #{start},
+          </if>
+          #{limit}
+        </if>
+
+    </select>
+
+    <select id="selectShopByConditionCount"
+            parameterType="com.manyi.iw.contract.soa.api.model.vo.sign.GetShopAgreementListParam" resultType="Integer">
+    select count(*) from iw_sign_agreement sg
+    where 1 = 1
+    <choose>
+        <when test="agentId != null and agentId != 0">
+            and agentId = #{agentId}
+        </when>
+        <when test="groupId != null and groupId != 0">
+            and groupId = #{groupId}
+        </when>
+        <when test="mendianId != null and mendianId !=0">
+            and mendianId = #{mendianId}
+        </when>
+        <when test="areaId != null and areaId != 0">
+            and areaId = #{areaId}
+        </when>
+        <when test="bigAreaId != null and bigAreaId != 0">
+            and bigAreaId = #{bigAreaId}
+        </when>
+        <when test="cityId != null and cityId != 0">
+            and cityId = #{cityId}
+        </when>
+        <when test="signMendianId != null and signMendianId !=0">
+            and signMendianId = #{signMendianId}
+        </when>
+    </choose>
+    <if test="signCode != null and signCode != ''">
+      AND signCode = #{signCode}
+    </if>
+        <if test="createTimeStart != null">
+            AND date(createTime) &gt;= #{createTimeStart}
+        </if>
+        <if test="createTimeEnd != null">
+            AND date(createTime) &lt;= #{createTimeEnd}
+        </if>
+    <if test="state != null">
+      AND state = #{state}
+    </if>
+  </select>
+
+</mapper>

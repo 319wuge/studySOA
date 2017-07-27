@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manyi.iw.contract.soa.server.mybatis.dao.write.custom.AgentContractCollectBillWriteDao">
+    <update id="updateCollectBillByContractId" parameterType="java.lang.Long">
+        update iw_agent_contract_collect_bill
+        set landlordId = #{landlordId,jdbcType=BIGINT}
+        where contractId = #{contractId,jdbcType=BIGINT}
+    </update>
+</mapper>

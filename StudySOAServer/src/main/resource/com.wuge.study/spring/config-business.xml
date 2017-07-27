@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       ">
+    <import resource="config-mybatis.xml"/>
+    <import resource="classpath:com/wuge/study/listener/config.xml"/>
+    <context:component-scan base-package="com.wuge.study.service"/>
+
+    <!-- 配置事务管理器 -->
+    <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager">
+        <property name="dataSource" ref="writeDataSource"/>
+    </bean>
+    <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManagerHims">
+        <property name="dataSource" ref="writeHimsDataSource"/>
+    </bean>
+
+    <!-- 注解方式配置事物 -->
+    <tx:annotation-driven proxy-target-class="true"/>
+
+    <bean id="transactionTemplateHims" class="org.springframework.transaction.support.TransactionTemplate" >
+        <property name="transactionManager" ref="transactionManagerHims"/>
+    </bean>
+
+    <bean class="com.wuge.study.exception.BusinessExceptionFactory">
+        <property name="exceptionMsgFile" value="exception-msg.properties"/>
+    </bean>
+    <!-- service 消息通知 -->
+    <bean id="exceptionInterceptor" class="com.wuge.study.interceptor.ExceptionInterceptor"/>
+    <aop:config>
+        <!--切入点-->
+        <aop:pointcut id="control" expression="execution(public * com.wuge.study.service..*.*(..)) "/>
+        <!--在该切入点使用自定义拦截器-->
+        <aop:advisor pointcut-ref="control" advice-ref="exceptionInterceptor"/>
+    </aop:config>
+
+    <!-- mls -->
+    <!--<bean id="mlsHouseClient" class="com.manyi.mls.client.house.HouseClient">-->
+    <!--<property name="app" value="IWSaleContract"/>-->
+    <!--<constructor-arg value="${mlsSOAClient}" />-->
+    <!--<constructor-arg value="20000" />-->
+    <!--</bean>-->
+    <bean id="agentCoinClient" class="com.manyi.iw.iwop.soa.client.AgentCoinClient">
+        <property name="app" value="IWContractSOA"/>
+        <constructor-arg value="${IWOP_SOA}"/>
+    </bean>
+    <bean class="com.manyi.mls.MLSSOAClientFactory" id="mlsSOAClientFactory">
+        <constructor-arg name="clientConfiguration">
+            <bean class="com.manyi.mls.model.ClientConfiguration">
+                <property name="serverUrl" value="${mlsClient}" />
+                <property name="actionSuffix" value="" />
+                <property name="app" value="IWContractSOA" />
+                <property name="soTimeout" value="10000" />
+            </bean>
+        </constructor-arg>
+    </bean>
+
+    <bean id="mlsSOAClient" factory-bean="mlsSOAClientFactory" factory-method="createHouseClient" />
+
+    <!-- 房源SOA客户端 -->
+    <bean class="com.manyi.housesoa.client.HouseSOAClient" id="houseClient">
+        <property name="app" value="IWSaleContract"/>
+        <constructor-arg name="serverURL" value="${house.soa}"/>
+        <constructor-arg name="soTimeout" value="10000"/>
+    </bean>
+    <bean id="uumPriClient" class="com.manyi.iw.uum.soa.client.UumPriClient">
+        <property name="app" value="IWContractSOA"/>
+        <constructor-arg value="${uum.soa}" index="0"/>
+        <constructor-arg value="10000" index="1"/>
+    </bean>
+    <bean class="com.manyi.housesoa.HouseSOAClientFactory" id="houseSOAClientFactory">
+        <constructor-arg name="clientConfiguration">
+            <bean class="com.manyi.housesoa.model.common.ClientConfiguration">
+                <property name="serverUrl" value="${house.soa}" />
+                <property name="actionSuffix" value=".rest" />
+                <property name="app" value="IWContractSOA" />
+                <property name="soTimeout" value="10000" />
+            </bean>
+        </constructor-arg>
+    </bean>
+    <!-- 出售房源SOA客户端 -->
+    <bean id="sellClient" factory-bean="houseSOAClientFactory" factory-method="createSellClient" />
+    <!-- 出租房源SOA客户端 -->
+    <bean id="rentClient" factory-bean="houseSOAClientFactory" factory-method="createRentClient" />
+
+    <bean id="ownersCommissionClient" factory-bean="houseCenterSOAClientFactory" factory-method="createOwnersCommissionClient"/>
+    <bean class="com.manyi.housecenter.utils.HouseCenterSOAClientFactory" id="houseCenterSOAClientFactory">
+        <constructor-arg name="clientConfiguration">
+            <bean class="com.manyi.housecenter.model.common.ClientConfiguration">
+                <property name="actionSuffix" value=""/>
+                <property name="app" value="HouseCenterSOA"/>
+                <property name="serverUrl" value="${housecenter.url}"/>
+                <property name="soTimeout" value="10000"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+
+    <!-- 图片上传客户端 -->
+    <bean class="com.manyi.imgsoa.client.ImgSOAClient">
+        <property name="app" value="IWContractSOA"/>
+        <constructor-arg value="${img.soa}"/>
+        <constructor-arg value="20000"/>
+    </bean>
+
+    <bean class="com.manyi.iw.cms.soa.client.CmsClient" id="cmsClient">
+        <property name="app" value="IWContractSOA"/>
+        <constructor-arg name="serverURL" value="${cms.soa}"/>
+    </bean>
+
+    <!-- FNF client -->
+    <bean class="com.manyi.iw.fin.appserver.client.FNFinClient" id="fnFinClient">
+        <constructor-arg name="config">
+            <bean class="com.manyi.iw.fin.appserver.client.FinClinetConfigImpl">
+                <property name="baseUrl" value="${finAppserver.url}"/>
+                <property name="socketTimeout" value="10000"/>
+                <property name="partnerId" value="188888888888"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+    <!-- MBF client -->
+    <bean class="com.manyi.iw.fin.appserver.client.MBFinClient" id="mbFinClient">
+        <constructor-arg name="config">
+            <bean class="com.manyi.iw.fin.appserver.client.FinClinetConfigImpl">
+                <property name="baseUrl" value="${finAppserver.url}"/>
+                <property name="socketTimeout" value="10000"/>
+                <property name="partnerId" value="188888888888"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+    <!-- IWAgentSOA -->
+    <bean class="com.manyi.iw.agent.soa.client.AgentSOAClientFactory" id="agentSOAClientFactory">
+        <constructor-arg name="clientConfiguration">
+            <bean class="com.manyi.iw.agent.soa.client.model.ClientConfiguration">
+                <property name="serverUrl" value="${new.agent.soa}"/>
+                <property name="actionSuffix" value=".rest"/>
+                <property name="app" value="IWContractSOA"/>
+                <property name="soTimeout" value="10000"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+    <bean factory-bean="agentSOAClientFactory" factory-method="createCommonClient" id="agentSOACommonClient"/>
+    <bean factory-bean="agentSOAClientFactory" factory-method="createUserClient" id="agentSOAUserClient"/>
+    <bean factory-bean="agentSOAClientFactory" factory-method="createMultiClient" id="agentSOAMultiClient"/>
+
+    <bean class="com.manyi.fyb.callcenter.client.check.CheckClient" id="checkClient">
+        <constructor-arg name="serverURL" value="${callcenterClient}"/>
+        <constructor-arg name="timeout" value="10000"/>
+        <constructor-arg name="app" value="IWContractSOA"/>
+    </bean>
+
+    <!-- tradeSOATradeClientNew -->
+    <bean class="com.manyi.iw.trade.soa.client.TradeSOAClientFactory" id="tradeSOAClientFactoryNew">
+        <constructor-arg name="clientConfiguration">
+            <bean class="com.manyi.iw.trade.soa.client.model.ClientConfiguration">
+                <property name="serverUrl" value="${trade.soa}"/>
+                <property name="actionSuffix" value=".rest"/>
+                <property name="app" value="IWContractSOA"/>
+                <property name="soTimeout" value="10000"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+    <bean factory-bean="tradeSOAClientFactoryNew" factory-method="createTradeSOATradeClient" id="tradeSOATradeClient"/>
+
+    <!-- IWTradeSOA -->
+    <bean class="com.manyi.iw.trade.soa.client.old.TradeSOAClientFactory" id="tradeSOAClientFactory">
+        <constructor-arg name="clientConfiguration">
+            <bean class="com.manyi.iw.trade.soa.client.model.ClientConfiguration">
+                <property name="serverUrl" value="${trade.soa}"/>
+                <property name="actionSuffix" value=".rest"/>
+                <property name="app" value="IWContractSOA"/>
+                <property name="soTimeout" value="10000"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+    <bean factory-bean="tradeSOAClientFactory" factory-method="createTradeSOAClient" id="tradeSOAClient"/>
+
+    <!-- 发送消息 -->
+    <bean id="mqSenderClient" class="com.manyi.mqservice.client.MsgQueueSenderClient">
+        <property name="app">
+            <value>IWContractSOA</value>
+        </property>
+        <property name="servAddr">
+            <value>${mq.soa}</value>
+        </property>
+        <property name="timeout">
+            <value>3000</value>
+        </property>
+    </bean>
+
+    <!-- 订阅消息 -->
+    <bean class="com.wuge.study.mqueue.OrderTradeMQHandler" id="orderTradeMqHandler"/>
+    <bean class="com.manyi.mqservice.client.MsgQueueSuberClient" id="mqSuberClient">
+        <property name="app">
+            <value>IWContractSOA</value>
+        </property>
+        <property name="servAddr">
+            <value>${mq.soa}</value>
+        </property>
+        <property name="minutesBefore">
+            <value>3</value>
+        </property>
+        <property name="timeout">
+            <value>3000</value>
+        </property>
+        <property name="subTopics">
+            <value>iwjw/trade/5</value>
+        </property>
+        <property name="handler" ref="orderTradeMqHandler"/>
+    </bean>
+
+
+
+    <!-- 订阅消息  交易消息-->
+    <bean class="com.wuge.study.mqueue.TradeMqHandler" id="tradeMqHandler"/>
+    <bean class="com.manyi.mqservice.client.MsgQueueSuberClient" id="mqSuberClientTrade">
+        <property name="app">
+            <value>IWContractSOA</value>
+        </property>
+        <property name="servAddr">
+            <value>${mq.soa}</value>
+        </property>
+        <property name="minutesBefore">
+            <value>3</value>
+        </property>
+        <property name="timeout">
+            <value>3000</value>
+        </property>
+        <property name="subTopics">
+            <value>iwjw/trade/1</value>
+        </property>
+        <property name="handler" ref="tradeMqHandler"/>
+    </bean>
+
+    <bean id="agentSOARentClient" factory-bean="agentSOAClientFactory" factory-method="createRentClient"/>
+    <bean factory-bean="agentSOAClientFactory" factory-method="createSaleClient" id="agentSOASaleClient"/>
+
+    <!-- 统一账号SOA客户端 -->
+    <bean class="com.manyi.iw.uum.soa.client.UserClient"
+          id="uumUserClient">
+        <property name="app"
+                  value="IWContractSOA"/>
+        <constructor-arg value="${uum.soa}"/>
+    </bean>
+
+    <bean id="uumAgentClient" class="com.manyi.iw.uum.soa.client.AgentClient">
+        <property name="app" value="IWContractSOA"/>
+        <constructor-arg value="${uum.soa}"/>
+    </bean>
+
+    <bean id="noticeServClient" class="com.manyi.iw.noticeserv.client.NoticeServClient">
+        <property name="app" value="IWContractSOA"/>
+        <constructor-arg value="${noticeServClientUrl}"/>
+        <constructor-arg value="60000" />
+    </bean>
+    <!-- 暂时解决方案 -->
+    <bean id="configUtil"
+          class="com.wuge.study.utils.ConfigurerUtil">
+        <property name="MS_URL" value="${MS_URL}" />
+        <property name="IW_PUSH_URL" value="${IW_PUSH_URL}" />
+        <property name="IW_PUSH_URL_AGENT" value="${IW_PUSH_URL_AGENT}" />
+    </bean>
+
+    <bean class="com.wuge.study.service.trialOperation.TrialOperationServiceImpl" id="trialOperationService">
+        <constructor-arg name="trialStore" value="${trialStore}"/>
+    </bean>
+
+    <bean id="userSoAClient" class="com.manyi.iw.usersoa.client.UserClient">
+        <property name="app" value="IWContractSOA"/>
+        <constructor-arg value="${user.soa}"/>
+    </bean>
+    <bean class="com.manyi.jiaizhai.JiaizhaiSOAClientFactory" id="jiaizhaiSOAClientFactory">
+        <constructor-arg name="clientConfiguration">
+            <bean class="com.manyi.jiaizhai.model.ClientConfiguration">
+                <property name="serverUrl" value="${jiaizhai.soa}" />
+                <property name="actionSuffix" value="" />
+                <property name="app" value="IWContractSOA" />
+                <property name="soTimeout" value="10000" />
+            </bean>
+        </constructor-arg>
+    </bean>
+    <bean id="jiaizhaiSOAUserContractClient" factory-bean="jiaizhaiSOAClientFactory" factory-method="createUserContractClient" />
+    <!-- 短信服务Client引入 -->
+    <bean class="com.manyi.smsfyb.client.SmsClient" id="smsClient">
+        <property name="app" value="IWContractSOA"/>
+        <constructor-arg value="${SMS_URL}"/>
+        <constructor-arg value="20000"/>
+    </bean>
+
+    <bean factory-bean="defaultClientFactory" factory-method="create" id="extPartChannelClient"/>
+    <bean class="com.manyi.iw.extpart.client.DefaultClientFactory" id="defaultClientFactory">
+        <constructor-arg name="config">
+            <bean class="com.manyi.soa.user.BaseHttpSOAClientFactoryUserCommonConfig">
+                <property name="baseUrl" value="${extpart.service}"/>
+                <property name="app" value="IWContractSOA"/>
+                <property name="connectTimeout" value="25000"/>
+                <property name="socketTimeout" value="25000"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+
+    <!-- Xmemcache -->
+    <bean class="net.rubyeye.xmemcached.XMemcachedClientBuilder"
+          id="xmemcacheBuilder">
+        <constructor-arg value="${xmemcached.addr}"/>
+
+        <!-- nio connection pool size -->
+        <property name="connectionPoolSize">
+            <value>${xmemcached.connectionPoolSize}</value>
+        </property>
+        <!-- connect timeout in milliseconds -->
+        <property name="connectTimeout">
+            <value>${xmemcached.connectTimeout}</value>
+        </property>
+        <!-- Operation timeout value in milliseconds -->
+        <property name="opTimeout">
+            <value>${xmemcached.opTimeout}</value>
+        </property>
+        <!-- Use binary protocol,default is TextCommandFactory -->
+        <property name="commandFactory">
+            <bean class="${xmemcached.commandFactory}"/>
+        </property>
+        <!-- Distributed strategy -->
+        <property name="sessionLocator">
+            <bean class="${xmemcached.sessionLocator}"/>
+        </property>
+        <!-- Serializing transcoder -->
+        <property name="transcoder">
+            <bean class="${xmemcached.transcoder}">
+                <property name="primitiveAsString"
+                          value="${xmemcached.primitiveAsString}"/>
+            </bean>
+
+        </property>
+        <property name="bufferAllocator">
+            <bean class="${xmemcached.bufferAllocator}"/>
+        </property>
+        <!-- Failure mode -->
+        <property name="failureMode"
+                  value="${xmemcached.failureMode}"/>
+    </bean>
+
+    <bean destroy-method="shutdown"
+          factory-bean="xmemcacheBuilder"
+          factory-method="build"
+          name="xmemcache"/>
+
+    <bean class="com.wuge.study.utils.Cryptor" id="cryptor">
+        <constructor-arg name="keySeed" value="${cryptor.secretKey}"/>
+    </bean>
+
+</beans>
