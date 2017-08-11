@@ -52,7 +52,7 @@
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>classpath:com/wuge/study/soa/spring/config-web.xml,classpath:com/wuge/study/soa/schedule/config.xml,classpath:com/wuge/study/soa/schedule/config-schedule.xml</param-value>
+            <param-value>classpath:com/wuge/study/soa/spring/config-web.xml,classpath:com/wuge/study/soa/schedule/config-schedule.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
         <async-supported>true</async-supported>

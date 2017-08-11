@@ -11,7 +11,7 @@
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
        ">
     <import resource="config-mybatis.xml"/>
-    <import resource="classpath:com/wuge/study/soa/listener/config.xml"/>
+    <!--<import resource="classpath:com/wuge/study/soa/listener/config.xml"/>-->
     <context:component-scan base-package="com.wuge.study.service"/>
 
     <!-- 配置事务管理器 -->
@@ -29,9 +29,9 @@
         <property name="transactionManager" ref="transactionManagerHims"/>
     </bean>
 
-    <bean class="com.wuge.study.exception.BusinessExceptionFactory">
-        <property name="exceptionMsgFile" value="exception-msg.properties"/>
-    </bean>
+    <!--<bean class="com.wuge.study.exception.BusinessExceptionFactory">-->
+        <!--<property name="exceptionMsgFile" value="exception-msg.properties"/>-->
+    <!--</bean>-->
     <!-- service 消息通知 -->
     <bean id="exceptionInterceptor" class="com.wuge.study.interceptor.ExceptionInterceptor"/>
     <aop:config>
