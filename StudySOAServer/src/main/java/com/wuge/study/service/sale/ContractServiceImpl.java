@@ -1,6 +1,6 @@
 package com.wuge.study.service.sale;
 
-import com.wuge.study.sale.IContractService;
+import com.wuge.api.sale.IContractService;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +13,6 @@ public class ContractServiceImpl implements IContractService {
     public Logger logger = Logger.getLogger(getClass());
     @Override
     public void testContract() {
-        logger.info("测试合同业务！");
+        logger.info("我是SOA里面的测试合同业务！");
     }
 }

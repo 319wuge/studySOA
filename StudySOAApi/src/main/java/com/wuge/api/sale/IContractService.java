@@ -1,4 +1,4 @@
-package com.wuge.study.sale;
+package com.wuge.api.sale;
 
 /**
  * Created by Administrator on 2017/7/18 0018.

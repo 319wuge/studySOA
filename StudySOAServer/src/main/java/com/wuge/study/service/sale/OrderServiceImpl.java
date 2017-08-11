@@ -1,7 +1,7 @@
 package com.wuge.study.service.sale;
 
 
-import com.wuge.study.sale.IOrderService;
+import com.wuge.api.sale.IOrderService;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ public class OrderServiceImpl implements IOrderService{
     protected Logger logger = Logger.getLogger(getClass());
 
     public void testLogger() {
-        logger.info("sssssssssssssss");
+        logger.info("我是StudySOA的日志");
         System.out.println("测试一下");
     }
 

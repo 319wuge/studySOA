@@ -1,6 +1,6 @@
 package test;
 
-import com.wuge.study.sale.IContractService;
+import com.wuge.api.sale.IContractService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
