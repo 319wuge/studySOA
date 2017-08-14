@@ -1,4 +1,4 @@
-package com.wuge.study.controller.order.sale;
+package com.wuge.study.controller.contract;
 
 import com.wuge.api.model.vo.LoggerResult;
 import com.wuge.api.sale.IContractService;

@@ -1,4 +1,4 @@
-package com.wuge.study.controller.order.sale;
+package com.wuge.study.controller.contract;
 
 import com.wuge.api.sale.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
