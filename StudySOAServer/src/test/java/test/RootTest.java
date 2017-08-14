@@ -19,6 +19,7 @@ public class RootTest {
     @Test
     public void test1() {
         System.out.println(111);
-        contractService.testContract();
+        String param = "test it";
+        contractService.testContract(param);
     }
 }

@@ -1,5 +1,6 @@
 package com.wuge.study.client.sale;
 
+import com.wuge.api.model.vo.LoggerResult;
 import com.wuge.api.sale.IContractService;
 import com.wuge.study.client.internal.SOAServerRequest;
 
@@ -9,7 +10,7 @@ import com.wuge.study.client.internal.SOAServerRequest;
 @SOAServerRequest(url = "/contract")
 public interface ContractClientService extends IContractService {
 
-    @SOAServerRequest(url = "testContract")
+    @SOAServerRequest(url = "/testContract")
     @Override
-    public void testContract();
+    public LoggerResult testContract(String param);
 }
