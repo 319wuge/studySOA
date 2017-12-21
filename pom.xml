@@ -127,11 +127,11 @@
         <artifactId>netfinworks-mq-jms-listener</artifactId>
         <version>${netfinworks.mq.version}</version>
       </dependency>
-      <dependency>
-        <groupId>com.manyi</groupId>
-        <artifactId>mlsClient</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
-      </dependency>
+      <!--<dependency>-->
+        <!--<groupId>com.manyi</groupId>-->
+        <!--<artifactId>mlsClient</artifactId>-->
+        <!--<version>1.0.0-SNAPSHOT</version>-->
+      <!--</dependency>-->
       <dependency>
         <groupId>com.manyi</groupId>
         <artifactId>mlsSOAClient</artifactId>
@@ -179,12 +179,12 @@
         <artifactId>IWUumSOAApi</artifactId>
         <version>3.2.1-SNAPSHOT</version>
       </dependency>
-      <dependency>
-        <groupId>com.manyi.iw</groupId>
-        <artifactId>IWContractSOAApi</artifactId>
-        <version>${manyi.contractsoa.api.version}</version>
-        <scope>compile</scope>
-      </dependency>
+      <!--<dependency>-->
+        <!--<groupId>com.manyi.iw</groupId>-->
+        <!--<artifactId>IWContractSOAApi</artifactId>-->
+        <!--<version>${manyi.contractsoa.api.version}</version>-->
+        <!--<scope>compile</scope>-->
+      <!--</dependency>-->
       <dependency>
         <groupId>com.manyi</groupId>
         <artifactId>common-maven</artifactId>
