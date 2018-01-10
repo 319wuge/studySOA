@@ -2,7 +2,6 @@ package com.wuge.study.interceptor;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.manyi.iw.trade.soa.client.exception.TradeSOAClientException;
 import com.manyi.json.FasterJsonTool;
 import com.wuge.study.exception.BusinessException;
 import org.aopalliance.intercept.MethodInterceptor;
@@ -38,7 +37,7 @@ public class ExceptionInterceptor implements MethodInterceptor {
         } catch (Exception e) {
             //内部异常不打印行号
             boolean localException = (e instanceof BusinessException);
-            boolean tradeException = (e instanceof TradeSOAClientException);
+            boolean tradeException = false;//(e instanceof TradeSOAClientException);
             if (!localException && !tradeException) {
                 logger.warn(param);
                 logger.warn(id + "occur A unknown ERROR.msg=" + e.getMessage() + ". details are as follow.");
@@ -55,8 +54,8 @@ public class ExceptionInterceptor implements MethodInterceptor {
                 if (localException) {
                     logger.warn(id + " occur A exsits local Exception.msg=" + e.getMessage());
                 } else {
-                    TradeSOAClientException tradeSOAClientException = (TradeSOAClientException) e;
-                    logger.warn(id + " occur A exsits trade Exception.msg=" + tradeSOAClientException.getResponse().getMessage());
+//                    TradeSOAClientException tradeSOAClientException = (TradeSOAClientException) e;
+//                    logger.warn(id + " occur A exsits trade Exception.msg=" + tradeSOAClientException.getResponse().getMessage());
                 }
             }
             throw e;
@@ -85,7 +84,7 @@ public class ExceptionInterceptor implements MethodInterceptor {
             return obj;
         } catch (Exception e) {
             Object[] arguments = methodInvocation.getArguments();
-            if(e instanceof BusinessException || e instanceof TradeSOAClientException) {
+            if(e instanceof BusinessException  ) {// || e instanceof TradeSOAClientException) {
                 logger.warn("----------------------interceptor warn log start " + methodInvocation.getMethod().getName() + "'s param json array start------------------");
                 if (null != arguments && arguments.length > 0) {
                     logger.warn("----------------------interceptor warn log params -->" + objectMapper.writeValueAsString(arguments));

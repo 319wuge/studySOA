@@ -13,10 +13,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.manyi.iw</groupId>
-            <artifactId>IWTradeSOAApi</artifactId>
-        </dependency>
-        <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
         </dependency>
@@ -24,19 +20,6 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.manyi.iw</groupId>
-            <artifactId>IWUumSOAApi</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.manyi.iw</groupId>
-            <artifactId>iw-enum</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.manyi.iw</groupId>
-            <artifactId>IWTradeSOAApi</artifactId>
-        </dependency>
-
     </dependencies>
     <build>
         <plugins>

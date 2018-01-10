@@ -2,7 +2,6 @@ package com.wuge.study.interceptor;
 
 import com.wuge.study.exception.BusinessException;
 import com.wuge.study.exception.ExceptionKey;
-import com.manyi.iw.trade.soa.client.exception.TradeSOAClientException;
 import com.wuge.study.model.Response;
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -26,11 +25,7 @@ public class GlobalExceptionHandler {
             result.setErrorCode(Integer.parseInt(errorCode));
             result.setMessage(((BusinessException) ex).getMessage());
             logger.warn(((BusinessException) ex).getDetailMessage());
-        } else if(ex instanceof TradeSOAClientException){
-            result.setErrorCode(Integer.parseInt(ExceptionKey.DEFAULT_KEY));
-            result.setMessage(((TradeSOAClientException) ex).getResponse().getMessage());
-            logger.warn(ex.getMessage());
-        }else {
+        } else {
             result.setErrorCode(Integer.parseInt(ExceptionKey.DEFAULT_KEY));
             result.setMessage(ExceptionKey.DEFAULT_MSG);
             logger.error(ExceptionKey.DEFAULT_KEY, ex);

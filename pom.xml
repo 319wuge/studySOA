@@ -8,7 +8,7 @@
     <module>StudySOAApi</module>
   </modules>
 
-    <artifactId>StudySOA</artifactId>
+    <artifactId>studySOA</artifactId>
     <groupId>com.wuge.StudySOA</groupId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
@@ -94,21 +94,6 @@
 
   <dependencyManagement>
     <dependencies>
-      <dependency>
-        <groupId>com.manyi</groupId>
-        <artifactId>HouseCenterClient</artifactId>
-        <version>0.1-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>com.manyi.iw</groupId>
-        <artifactId>IWOPSOAApi</artifactId>
-        <version>1.3.1-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>com.manyi.iw</groupId>
-        <artifactId>IWOPSOAClient</artifactId>
-        <version>1.3.1-SNAPSHOT</version>
-      </dependency>
       <!-- netfinworks mq -->
       <dependency>
         <groupId>com.netfinworks.mq</groupId>
@@ -126,41 +111,6 @@
         <groupId>com.netfinworks.mq</groupId>
         <artifactId>netfinworks-mq-jms-listener</artifactId>
         <version>${netfinworks.mq.version}</version>
-      </dependency>
-      <!--<dependency>-->
-        <!--<groupId>com.manyi</groupId>-->
-        <!--<artifactId>mlsClient</artifactId>-->
-        <!--<version>1.0.0-SNAPSHOT</version>-->
-      <!--</dependency>-->
-      <dependency>
-        <groupId>com.manyi</groupId>
-        <artifactId>mlsSOAClient</artifactId>
-        <version>0.0.8-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>org.quartz-scheduler</groupId>
-        <artifactId>quartz</artifactId>
-        <version>2.2.2</version>
-      </dependency>
-      <dependency>
-        <groupId>com.manyi.iw</groupId>
-        <artifactId>iw-enum</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>com.manyi.iw</groupId>
-        <artifactId>IWTradeSOAClient</artifactId>
-        <version>0.0.7-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>com.manyi.iw</groupId>
-        <artifactId>IWTradeSOAApi</artifactId>
-        <version>0.0.7-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>com.manyi.iw</groupId>
-        <artifactId>mqClient</artifactId>
-        <version>0.0.5-RELEASE</version>
       </dependency>
 
       <dependency>
@@ -197,87 +147,9 @@
         <version>${manyi.lbdatasource.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.manyi</groupId>
-        <artifactId>housesoa-client</artifactId>
-        <version>1.8-SNAPSHOT</version>
-        <exclusions>
-          <exclusion>
-            <artifactId>velocity</artifactId>
-            <groupId>velocity</groupId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
         <groupId>com.wuge.StudySOA</groupId>
         <artifactId>StudySOAApi</artifactId>
         <version>1.0-SNAPSHOT</version>
-      </dependency>
-      <!--<dependency>-->
-        <!--<groupId>studySOA</groupId>-->
-        <!--<artifactId>StudySOAClient</artifactId>-->
-        <!--<version>1.0-SNAPSHOT</version>-->
-      <!--</dependency>-->
-      <dependency>
-        <groupId>com.manyi.iw</groupId>
-        <artifactId>IWCmsSOAClient</artifactId>
-        <version>1.1.5-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>com.manyi.jiaizhai</groupId>
-        <artifactId>JiaizhaiSOAClient</artifactId>
-        <version>0.0.3-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>com.manyi.iw</groupId>
-        <artifactId>IWUserSOAClient</artifactId>
-        <version>0.1.1-SNAPSHOT</version>
-        <type>jar</type>
-        <exclusions>
-          <exclusion>
-            <groupId>*</groupId>
-            <artifactId>*</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>com.manyi</groupId>
-        <artifactId>callcenterClient</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>com.manyi</groupId>
-        <artifactId>sms_fyb</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-        <exclusions>
-          <exclusion>
-            <groupId>org.quartz-scheduler</groupId>
-            <artifactId>quartz</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>com.manyi.iw</groupId>
-        <artifactId>IWNotificationServiceClient</artifactId>
-        <version>1.1.9-SNAPSHOT</version>
-        <exclusions>
-          <exclusion>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>com.fasterxml.jackson.module</groupId>
-            <artifactId>*</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>*</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>com.manyi.iw</groupId>
-        <artifactId>IWNotificationServiceModel</artifactId>
-        <version>1.1.9-SNAPSHOT</version>
       </dependency>
       <!--httpcomponents-->
       <dependency>
@@ -306,11 +178,11 @@
         <artifactId>slf4j-log4j12</artifactId>
         <version>${slf4j.version}</version>
       </dependency>
-      <dependency>
-        <groupId>org.apache.logging.log4j</groupId>
-        <artifactId>log4j-core</artifactId>
-        <version>2.2</version>
-      </dependency>
+      <!--<dependency>-->
+        <!--<groupId>org.apache.logging.log4j</groupId>-->
+        <!--<artifactId>log4j-core</artifactId>-->
+        <!--<version>2.2</version>-->
+      <!--</dependency>-->
       <!-- spring -->
       <dependency>
         <groupId>org.springframework</groupId>
@@ -452,25 +324,20 @@
         <version>${commons.dbcp.version}</version>
       </dependency>
       <!-- aspectj -->
-      <dependency>
-        <groupId>org.aspectj</groupId>
-        <artifactId>aspectjweaver</artifactId>
-        <version>${aspectj.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.aspectj</groupId>
-        <artifactId>aspectjrt</artifactId>
-        <version>${aspectj.version}</version>
-      </dependency>
+      <!--<dependency>-->
+        <!--<groupId>org.aspectj</groupId>-->
+        <!--<artifactId>aspectjweaver</artifactId>-->
+        <!--<version>${aspectj.version}</version>-->
+      <!--</dependency>-->
+      <!--<dependency>-->
+        <!--<groupId>org.aspectj</groupId>-->
+        <!--<artifactId>aspectjrt</artifactId>-->
+        <!--<version>${aspectj.version}</version>-->
+      <!--</dependency>-->
       <dependency>
         <groupId>org.apache.poi</groupId>
         <artifactId>poi</artifactId>
         <version>${poi.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.manyi.iw</groupId>
-        <artifactId>IWFinAppServerClient</artifactId>
-        <version>0.0.2-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
@@ -514,12 +381,6 @@
         <scope>provided</scope>
       </dependency>
 
-      <dependency>
-        <groupId>com.manyi.iw</groupId>
-        <artifactId>IWExtPartChannelClient</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-      </dependency>
-
       <!-- httpclient -->
       <dependency>
         <groupId>org.apache.httpcomponents</groupId>
@@ -555,82 +416,82 @@
     </dependencies>
   </dependencyManagement>
 
-  <build>
-    <finalName>StudySOA</finalName>
-    <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
-    <resources>
-      <resource>
-        <directory>${basedir}/src/main/resources</directory>
-        <filtering>true</filtering>
-        <includes>
-          <include>*.xml</include>
-          <include>*.properties</include>
-          <include>com/**/*</include>
-        </includes>
+  <!--<build>-->
+    <!--<finalName>studySOA</finalName>-->
+    <!--<sourceDirectory>${basedir}/src/main/java</sourceDirectory>-->
+    <!--<resources>-->
+      <!--<resource>-->
+        <!--<directory>${basedir}/src/main/resources</directory>-->
+        <!--<filtering>true</filtering>-->
+        <!--<includes>-->
+          <!--<include>*.xml</include>-->
+          <!--<include>*.properties</include>-->
+          <!--<include>com/**/*</include>-->
+        <!--</includes>-->
 
-        <excludes>
-          <exclude>config.properties</exclude>
-          <exclude>jdbc.properties</exclude>
-          <exclude>log4j.properties</exclude>
-          <exclude>memcache.properties</exclude>
-          <exclude>jetty-context.xml</exclude>
-        </excludes>
-      </resource>
-      <resource>
-        <directory>${basedir}/src/main/resources/config/${env}</directory>
-        <includes>
-          <include>config.properties</include>
-          <include>jdbc.properties</include>
-          <include>log4j.properties</include>
-          <include>memcache.properties</include>
-        </includes>
-      </resource>
-    </resources>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>${maven.compiler.plugin.version}</version>
-          <configuration>
-            <source>${javac.target.version}</source>
-            <target>${javac.target.version}</target>
-          </configuration>
-        </plugin>
+        <!--<excludes>-->
+          <!--<exclude>config.properties</exclude>-->
+          <!--<exclude>jdbc.properties</exclude>-->
+          <!--<exclude>log4j.properties</exclude>-->
+          <!--<exclude>memcache.properties</exclude>-->
+          <!--<exclude>jetty-context.xml</exclude>-->
+        <!--</excludes>-->
+      <!--</resource>-->
+      <!--<resource>-->
+        <!--<directory>${basedir}/src/main/resources/config/${env}</directory>-->
+        <!--<includes>-->
+          <!--<include>config.properties</include>-->
+          <!--<include>jdbc.properties</include>-->
+          <!--<include>log4j.properties</include>-->
+          <!--<include>memcache.properties</include>-->
+        <!--</includes>-->
+      <!--</resource>-->
+    <!--</resources>-->
+    <!--<pluginManagement>-->
+      <!--<plugins>-->
+        <!--<plugin>-->
+          <!--<groupId>org.apache.maven.plugins</groupId>-->
+          <!--<artifactId>maven-compiler-plugin</artifactId>-->
+          <!--<version>${maven.compiler.plugin.version}</version>-->
+          <!--<configuration>-->
+            <!--<source>${javac.target.version}</source>-->
+            <!--<target>${javac.target.version}</target>-->
+          <!--</configuration>-->
+        <!--</plugin>-->
 
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-dependency-plugin</artifactId>
-          <version>${maven.dependency.plugin.version}</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-resources-plugin</artifactId>
-          <version>${maven.resources.plugin.version}</version>
-          <configuration>
-            <encoding>UTF-8</encoding>
-            <nonFilteredFileExtensions>
-              <nonFilteredFileExtension>xls</nonFilteredFileExtension>
-            </nonFilteredFileExtensions>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-war-plugin</artifactId>
-          <version>${maven.war.plugin.version}</version>
-          <configuration>
-            <outputDirectory>${project.build.directory}</outputDirectory>
-            <archive>
-              <manifest>
-                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-              </manifest>
-            </archive>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-  </build>
+        <!--<plugin>-->
+          <!--<groupId>org.apache.maven.plugins</groupId>-->
+          <!--<artifactId>maven-dependency-plugin</artifactId>-->
+          <!--<version>${maven.dependency.plugin.version}</version>-->
+        <!--</plugin>-->
+        <!--<plugin>-->
+          <!--<groupId>org.apache.maven.plugins</groupId>-->
+          <!--<artifactId>maven-resources-plugin</artifactId>-->
+          <!--<version>${maven.resources.plugin.version}</version>-->
+          <!--<configuration>-->
+            <!--<encoding>UTF-8</encoding>-->
+            <!--<nonFilteredFileExtensions>-->
+              <!--<nonFilteredFileExtension>xls</nonFilteredFileExtension>-->
+            <!--</nonFilteredFileExtensions>-->
+          <!--</configuration>-->
+        <!--</plugin>-->
+        <!--<plugin>-->
+          <!--<groupId>org.apache.maven.plugins</groupId>-->
+          <!--<artifactId>maven-war-plugin</artifactId>-->
+          <!--<version>${maven.war.plugin.version}</version>-->
+          <!--<configuration>-->
+            <!--<outputDirectory>${project.build.directory}</outputDirectory>-->
+            <!--<archive>-->
+              <!--<manifest>-->
+                <!--<addDefaultImplementationEntries>true</addDefaultImplementationEntries>-->
+                <!--<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>-->
+              <!--</manifest>-->
+            <!--</archive>-->
+          <!--</configuration>-->
+        <!--</plugin>-->
+      <!--</plugins>-->
+    <!--</pluginManagement>-->
+  <!--</build>-->
 
   <distributionManagement>
     <repository>

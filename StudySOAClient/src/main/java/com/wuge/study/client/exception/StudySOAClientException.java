@@ -12,16 +12,12 @@ import com.wuge.study.client.model.Response;
 public class StudySOAClientException extends StudySOAException {
     private Response response;
 
-    /**
-     * @see ContractSOAException#ContractSOAException()
-     */
     public StudySOAClientException() {
         super();
     }
 
     /**
      * @param response {@link Response}
-     * @see ContractSOAException#ContractSOAException()
      */
     public StudySOAClientException(Response response) {
         this.response = response;
@@ -29,7 +25,6 @@ public class StudySOAClientException extends StudySOAException {
 
     /**
      * @param response {@link Response}
-     * @see ContractSOAException#ContractSOAException(String)
      */
     public StudySOAClientException(String message, Response response) {
         super(message);
@@ -38,7 +33,6 @@ public class StudySOAClientException extends StudySOAException {
 
     /**
      * @param response {@link Response}
-     * @see ContractSOAException#ContractSOAException(String, Throwable)
      */
     public StudySOAClientException(String message, Throwable cause, Response response) {
         super(message, cause);
@@ -47,7 +41,6 @@ public class StudySOAClientException extends StudySOAException {
 
     /**
      * @param response {@link Response}
-     * @see ContractSOAException#ContractSOAException(Throwable)
      */
     public StudySOAClientException(Throwable cause, Response response) {
         super(cause);
@@ -56,7 +49,6 @@ public class StudySOAClientException extends StudySOAException {
 
     /**
      * @param response {@link Response}
-     * @see ContractSOAException#ContractSOAException(String, Throwable, boolean, boolean)
      */
     public StudySOAClientException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace, Response response) {
         super(message, cause, enableSuppression, writableStackTrace);

@@ -1,5 +1,6 @@
 package com.wuge.api.model.vo;
 
+
 import lombok.Data;
 
 /**

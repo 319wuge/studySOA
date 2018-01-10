@@ -22,10 +22,6 @@
             <artifactId>common-maven</artifactId>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>cglib</groupId>
-            <artifactId>cglib-nodep</artifactId>
-        </dependency>
         <!--httpcomponents-->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
