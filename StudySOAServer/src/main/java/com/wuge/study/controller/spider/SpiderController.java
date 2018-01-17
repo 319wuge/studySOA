@@ -6,4 +6,5 @@ package com.wuge.study.controller.spider;
  */
 public class SpiderController {
 
+
 }
